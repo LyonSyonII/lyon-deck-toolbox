@@ -35,6 +35,23 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
+        ui::CentralPanel::default().show(ctx, |ui| {
+            ui.vertical_centered(|ui| {
+                ui.label(RichText::new("Steam Deck Tools").underline().heading());
+                ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
+            });
+            
+            ui.group(|ui| {
+                ScrollArea::vertical().show(ui, |ui| {
+                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                });
+            });
+        });
         ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
             let layout = Layout::left_to_right(Align::Center).with_main_align(Align::RIGHT).with_cross_align(Align::Center);
             ui.with_layout(layout, |ui| {
@@ -52,23 +69,5 @@ impl eframe::App for App {
             });
         });
         
-        ui::CentralPanel::default().show(ctx, |ui| {
-            ui.vertical_centered(|ui| {
-                ui.label(RichText::new("Steam Deck Tools").underline().heading());
-                ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
-            });
-
-            ui.group(|ui| {
-                ScrollArea::vertical().show(ui, |ui| {
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                });
-            });
-
-        });
     }
 }
