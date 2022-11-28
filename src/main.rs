@@ -36,9 +36,9 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-            let mut layout = Layout::left_to_right(Align::Center);
+            let layout = Layout::left_to_right(Align::Center);
+            layout.horizontal_align();
             layout.vertical_align();
-
             ui.with_layout(layout, |ui| {
                 if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
                         
