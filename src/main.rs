@@ -21,8 +21,6 @@ struct App {
 impl App {
     fn new(cc: &eframe::CreationContext) -> Self {
         cc.egui_ctx.set_style(ui::Style::default());
-        cc.egui_ctx.set_heading_font_style(20., eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx.set_small_font_style(8., eframe::epaint::FontFamily::Proportional); // TODO! Bug!!!!
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         Self::default()
     }
@@ -31,7 +29,7 @@ impl App {
 fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
     ui.vertical(|ui| {
         ui.checkbox(checked,RichText::from(title).size(12.));
-        ui.small(RichText::from(description));
+        ui.small(RichText::from(description).size(7.));
     });
 }
 
