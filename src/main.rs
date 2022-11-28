@@ -29,7 +29,7 @@ impl App {
 fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
     ui.vertical(|ui| {
         ui.checkbox(checked,RichText::from(title).size(9.));
-        ui.small(RichText::from(description).size(7.));
+        ui.label(RichText::from(description).size(7.));
     });
 }
 
