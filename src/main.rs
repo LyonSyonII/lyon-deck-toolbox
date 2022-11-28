@@ -56,7 +56,7 @@ impl eframe::App for App {
 
         ui::TopBottomPanel::bottom(0).show(ctx, |ui| {
             ui.horizontal_centered(|ui| {
-                if ui.button("Install Selected").clicked() {
+                if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
                 
                 }
                 if ui.button("Install All").clicked() {
