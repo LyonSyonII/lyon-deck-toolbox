@@ -1,9 +1,11 @@
-use eframe::{egui::{self as ui, RichText, Ui}, epaint::Vec2};
+use eframe::{egui::{self as ui, RichText}, epaint::Vec2};
 use steam_deck_tools::StyleHelper;
 
+#[allow(clippy::field_reassign_with_default)]
 fn main() {
     let mut native_options = eframe::NativeOptions::default();
-    native_options.initial_window_size = Some(Vec2::new(x, y))
+    native_options.follow_system_theme = true;
+    native_options.initial_window_size = Some(Vec2::new(500., 300.));
     eframe::run_native(
         "Steam Deck Tools",
         native_options,
