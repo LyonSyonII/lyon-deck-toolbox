@@ -30,8 +30,8 @@ impl App {
 
 fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
     ui.vertical(|ui| {
-        ui.checkbox(checked, title);
-        ui.small(description);
+        ui.checkbox(checked,RichText::from(title).size(12.));
+        ui.small(RichText::from(description));
     });
 }
 
