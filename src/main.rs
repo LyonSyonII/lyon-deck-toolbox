@@ -1,4 +1,4 @@
-use eframe::{egui::{self as ui, RichText}, epaint::Vec2};
+use eframe::{egui::{self as ui, RichText, Ui}, epaint::Vec2};
 use steam_deck_tools::StyleHelper;
 
 #[allow(clippy::field_reassign_with_default)]
@@ -28,6 +28,13 @@ impl App {
     }
 }
 
+fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
+    ui.vertical(|ui| {
+        ui.checkbox(checked, title);
+        ui.small(description);
+    });
+}
+
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::CentralPanel::default().show(ctx, |ui| {
@@ -37,10 +44,7 @@ impl eframe::App for App {
             });
             
             ui.group(|ui| {
-                ui.vertical(|ui| {
-                    ui.checkbox(&mut self.rwfus, "Rwfus");
-                    ui.small("Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.");
-                });
+                tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
             });
         });
     }
