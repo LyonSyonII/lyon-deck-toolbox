@@ -45,6 +45,11 @@ impl eframe::App for App {
             
             ui.group(|ui| {
                 tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
             });
         });
     }
