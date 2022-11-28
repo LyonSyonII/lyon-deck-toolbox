@@ -36,7 +36,8 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-            ui.horizontal(|ui| {
+            let layout = Layout::left_to_right(Align::Center).with_cross_align(Align::Center);
+            ui.with_layout(layout, |ui| {
                 if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
                         
                 }
@@ -47,8 +48,7 @@ impl eframe::App for App {
         });
         
         ui::CentralPanel::default().show(ctx, |ui| {
-            let layout = Layout::left_to_right(Align::Center).with_cross_align(Align::Center);
-            ui.with_layout(layout, |ui| {
+            ui.vertical(|ui| {
                 ui.label(RichText::new("Steam Deck Tools").underline().heading());
                 ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
             });
