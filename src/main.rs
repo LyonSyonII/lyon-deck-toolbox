@@ -16,7 +16,7 @@ struct App;
 impl App {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
         cc.egui_ctx.set_heading_font_style(20., eframe::epaint::FontFamily::Proportional);
-        //cc.egui_ctx.set_small_font_style(8., eframe::epaint::FontFamily::Proportional); // TODO! Bug!!!!
+        cc.egui_ctx.set_small_font_style(8., eframe::epaint::FontFamily::Proportional); // TODO! Bug!!!!
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         Self::default()
     }
