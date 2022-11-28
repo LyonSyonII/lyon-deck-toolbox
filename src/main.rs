@@ -36,14 +36,11 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-            let layout = Layout::left_to_right(Align::TOP);
-            layout.horizontal_align();
-            layout.vertical_align();
-            ui.with_layout(layout, |ui| {
+            ui.horizontal(|ui| {
                 if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
                         
                 }
-                if ui.button("Install All").clicked() {
+                if ui.button(RichText::new("Install All").size(8.)).clicked() {
                 
                 }
             });
@@ -51,7 +48,7 @@ impl eframe::App for App {
         
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
-                ui.heading("Steam Deck Tools");
+                ui.label(RichText::new("Steam Deck Tools").underline().heading());
                 ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
             });
 
