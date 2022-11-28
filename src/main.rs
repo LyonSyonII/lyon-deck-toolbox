@@ -46,7 +46,7 @@ impl eframe::App for App {
                 }
             });
 
-            ui.with_layout(egui::Layout::right_to_left(egui::Align::TOP), |ui| {
+            ui.with_layout(Layout::right_to_left(Align::TOP), |ui| {
                 ui.label("world!");
                 ui.label("Hello");
             });
