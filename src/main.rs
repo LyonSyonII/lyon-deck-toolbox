@@ -36,7 +36,7 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-            let layout = Layout::left_to_right(Align::Center);
+            let layout = Layout::left_to_right(Align::TOP);
             layout.horizontal_align();
             layout.vertical_align();
             ui.with_layout(layout, |ui| {
