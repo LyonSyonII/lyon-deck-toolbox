@@ -28,7 +28,10 @@ impl App {
 
 fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
     ui.vertical(|ui| {
-        ui.checkbox(checked,RichText::from(title).size(9.));
+        ui.horizontal(|ui| {
+            ui.checkbox(checked,RichText::from(title).size(9.));
+            ui.hyperlink_to("Repo", "https://github.com/ValShaped/rwfus");
+        });
         ui.label(RichText::from(description).size(7.));
     });
 }
