@@ -36,8 +36,8 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-            ui.horizontal(|ui| {
-                ui.centered_and_justified(|ui| {
+            ui.centered_and_justified(|ui| {
+                ui.horizontal(|ui| {
                     if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
                 
                     }
@@ -46,9 +46,9 @@ impl eframe::App for App {
                     }
 
                 });
-            });
+            })
         });
-
+        
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.heading("Steam Deck Tools");
