@@ -1,4 +1,4 @@
-use eframe::{egui::{self as ui, RichText, Ui}, epaint::Vec2};
+use eframe::{egui::{self as ui, RichText, Ui, ScrollArea}, epaint::Vec2};
 use steam_deck_tools::StyleHelper;
 
 #[allow(clippy::field_reassign_with_default)]
@@ -43,14 +43,17 @@ impl eframe::App for App {
                 ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
             });
             
-            ui.group(|ui| {
+            ScrollArea::vertical().show(ui, |ui| {
                 tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
                 tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
                 tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
                 tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
                 tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
                 tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+            
             });
+            ui.group(|ui| {
+});
         });
     }
 }
