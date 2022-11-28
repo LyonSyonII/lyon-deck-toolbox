@@ -14,7 +14,7 @@ fn main() {
 struct App;
 
 impl App {
-    fn new(cc: &eframe::CreationContext<'_>) -> Self {
+    fn new(cc: &eframe::CreationContext) -> Self {
         cc.egui_ctx.set_style(ui::Style::default());
         cc.egui_ctx.set_heading_font_style(20., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.set_small_font_style(8., eframe::epaint::FontFamily::Proportional); // TODO! Bug!!!!
@@ -28,7 +28,7 @@ impl eframe::App for App {
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.heading("Steam Deck Tools");
-                ui.small("Select the tools you want to install, or click 'Install All'.\nHover the mouse over each entry to see a quick explanation of what each one does.").on_hover_text("Tooltip!");
+                ui.small("Select the tools you want to install, or click 'Install All'.\nHover the mouse over each entry to see a quick explanation of what each one does.").on_hover_text(RichText::new("Tooltip!").size(6));
                 
             });
         });
