@@ -5,7 +5,7 @@ use steam_deck_tools::StyleHelper;
 fn main() {
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
-    native_options.fullscreen = true;
+    native_options.initial_window_size = Some(Vec2::new(300., 300.));
     eframe::run_native(
         "Steam Deck Tools",
         native_options,
