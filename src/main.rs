@@ -21,7 +21,7 @@ struct App {
 impl App {
     fn new(cc: &eframe::CreationContext) -> Self {
         cc.egui_ctx.set_style(ui::Style::default());
-        cc.egui_ctx.set_body_font_style(3., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx.set_body_font_style(5., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         Self::default()
     }
