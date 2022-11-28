@@ -28,7 +28,7 @@ impl eframe::App for App {
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.heading("Steam Deck Tools");
-                ui.small("Select the tools you want to install, or click 'Install All'.\nHover the mouse over each entry to see a quick explanation of what each one does.").on_hover_text(RichText::new("Tooltip!").size(6));
+                ui.small("Select the tools you want to install, or click 'Install All'.\nHover the mouse over each entry to see a quick explanation of what each one does.").on_hover_text(RichText::new("Tooltip!").size(6.));
                 
             });
         });
