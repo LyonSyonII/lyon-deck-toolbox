@@ -33,7 +33,7 @@ impl eframe::App for App {
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.heading("Steam Deck Tools");
-                ui.small("Select the tools you want to install, or click 'Install All'.");
+                ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5));
             });
 
             ui.horizontal(|ui| {
