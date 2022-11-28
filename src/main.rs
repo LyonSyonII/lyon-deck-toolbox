@@ -14,7 +14,9 @@ fn main() {
 }
 
 #[derive(Default)]
-struct App;
+struct App {
+    rwfus: bool
+}
 
 impl App {
     fn new(cc: &eframe::CreationContext) -> Self {
@@ -27,12 +29,19 @@ impl App {
 }
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &eframe::egui::Context, frame: &mut eframe::Frame) {
+    fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.heading("Steam Deck Tools");
-                ui.small("Select the tools you want to install, or click 'Install All'.\nHover the mouse over each entry to see a quick explanation of what each one does.").on_hover_text(RichText::new("Tooltip!").size(6.));
-                
+                ui.small("Select the tools you want to install, or click 'Install All'.\nHover the mouse over each entry to see a quick explanation of what each one does.");
+            });
+
+            ui.horizontal(|ui| {
+                ui.checkbox(&mut self.rwfus, "");
+                ui.vertical(|ui| {
+                    ui.label(RichText::new("Rwfus").size(12.));
+                    ui.small("Creates an overlay over the Root filesystem that allows <code>pacman<code> to install packages with SteamOS readonly enabled.");
+                });
             });
         });
     }
