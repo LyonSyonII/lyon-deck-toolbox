@@ -1,4 +1,4 @@
-use eframe::{egui::{self as ui, RichText, Ui, ScrollArea, Layout, Button}, epaint::Vec2, emath::Align};
+use eframe::{egui::{self as ui, RichText, Ui, ScrollArea, Layout, Button, Hyperlink}, epaint::Vec2, emath::Align};
 use steam_deck_tools::StyleHelper;
 
 #[allow(clippy::field_reassign_with_default)]
@@ -26,11 +26,11 @@ impl App {
     }
 }
 
-fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
+fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, checked: &mut bool) {
     ui.vertical(|ui| {
         ui.horizontal(|ui| {
             ui.checkbox(checked,RichText::from(title).size(9.));
-            ui.hyperlink_to("Repo", "https://github.com/ValShaped/rwfus");
+            ui.add(Hyperlink::from_label_and_url(RichText::new("Repo").size(5.), repo));
         });
         ui.label(RichText::from(description).size(7.));
     });
@@ -57,12 +57,11 @@ impl eframe::App for App {
 
             ui.group(|ui| {
                 ScrollArea::vertical().show(ui, |ui| {
-                    tool(ui, "Rwfus", "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
-                    tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", "https://github.com/ValShaped/rwfus", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", "https://github.com/ValShaped/rwfus", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", "https://github.com/ValShaped/rwfus", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", "https://github.com/ValShaped/rwfus", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", "https://github.com/ValShaped/rwfus", &mut self.rwfus);
                 });
             });
         });
