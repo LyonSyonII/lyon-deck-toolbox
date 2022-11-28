@@ -89,7 +89,7 @@ impl StyleHelper for eframe::egui::Context {
         *style.text_styles.get_mut(&TextStyle::Body).unwrap() = FontId::new(size, family);
         self.set_style(style);
     }
-    
+
     fn set_monospace_font_style(&self, size: f32, family: FontFamily) {
         let mut style = self.style().deref().clone();
         *style.text_styles.get_mut(&TextStyle::Monospace).unwrap() = FontId::new(size, family);
