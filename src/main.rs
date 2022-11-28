@@ -1,4 +1,4 @@
-use eframe::{egui::{self as ui, RichText, Ui, ScrollArea}, epaint::Vec2};
+use eframe::{egui::{self as ui, RichText, Ui, ScrollArea, Layout}, epaint::Vec2, emath::Align};
 use steam_deck_tools::StyleHelper;
 
 #[allow(clippy::field_reassign_with_default)]
@@ -36,15 +36,23 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-            ui.vertical_centered(|ui| {
-                ui.horizontal_centered(|ui| {
-                    if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
-                
-                    }
-                    if ui.button("Install All").clicked() {
-                    
-                    }
+            let mut layout = Layout::left_to_right(Align::Center);
+            layout.vertical_align();
 
+            ui.with_layout(layout, |ui| {
+                if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
+                        
+                }
+                if ui.button("Install All").clicked() {
+                
+                }
+            });
+            return;
+
+            ui.vertical_centered(|ui| {
+                ui.horizontal(|ui| {
+                
+                
                 });
             })
         });
