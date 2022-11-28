@@ -37,9 +37,9 @@ impl eframe::App for App {
             });
 
             ui.horizontal(|ui| {
-                ui.checkbox(&mut self.rwfus, "");
+                
                 ui.vertical(|ui| {
-                    ui.label(RichText::new("Rwfus").size(12.));
+                    ui.checkbox(&mut self.rwfus, "Rwfus");
                     ui.small("Creates an overlay over the Root filesystem that allows <code>pacman<code> to install packages with SteamOS readonly enabled.");
                 });
             });
