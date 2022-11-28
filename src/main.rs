@@ -35,9 +35,8 @@ impl eframe::App for App {
                 ui.heading("Steam Deck Tools");
                 ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
             });
-
-            ui.horizontal(|ui| {
-                
+            
+            ui.group(|ui| {
                 ui.vertical(|ui| {
                     ui.checkbox(&mut self.rwfus, "Rwfus");
                     ui.small("Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.");
