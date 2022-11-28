@@ -54,7 +54,7 @@ impl eframe::App for App {
 
             ui.group(|ui| {
                 ScrollArea::vertical().show(ui, |ui| {
-                    tool(ui, "Rwfus", "Read-Write OverlayFS for your Steam Deck!\nCreates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
+                    tool(ui, "Rwfus", "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", &mut self.rwfus);
                     tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
                     tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
                     tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
