@@ -1,4 +1,5 @@
 use eframe::egui as ui;
+use steam_deck_tools::StyleHelper;
 
 fn main() {
     let native_options = eframe::NativeOptions::default();
@@ -10,11 +11,7 @@ struct App;
 
 impl App {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
-        let mut style = ui::Style::default();
-        let mut text_styles = &mut style.text_styles;
-        *text_styles.get_mut(&ui::TextStyle::Heading).unwrap() = ui::FontId::new(30., eframe::epaint::FontFamily::Proportional);
-        
-        cc.egui_ctx.set_style(style);
+        cc.egui_ctx.set_heading_font_style(40., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         Self::default()
     }
@@ -23,7 +20,9 @@ impl App {
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, frame: &mut eframe::Frame) {
         ui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Steam Deck Tools");
+            ui.vertical_centered(|ui| {
+                ui.heading("Steam Deck Tools");
+            });
         });
     }
 }
