@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use eframe::{
     egui::{
         Style,
@@ -77,37 +79,32 @@ pub trait StyleHelper {
 
 impl StyleHelper for eframe::egui::Context {
     fn set_small_font_style(&self, size: f32, family: FontFamily) {
-        let mut style = Style::default();
-        let text_styles = &mut style.text_styles;
-        *text_styles.get_mut(&TextStyle::Small).unwrap() = FontId::new(size, family);
+        let mut style = self.style().deref().clone();
+        *style.text_styles.get_mut(&TextStyle::Small).unwrap() = FontId::new(size, family);
         self.set_style(style);
     }
 
     fn set_body_font_style(&self, size: f32, family: FontFamily) {
-        let mut style = Style::default();
-        let text_styles = &mut style.text_styles;
-        *text_styles.get_mut(&TextStyle::Body).unwrap() = FontId::new(size, family);
+        let mut style = self.style().deref().clone();
+        *style.text_styles.get_mut(&TextStyle::Body).unwrap() = FontId::new(size, family);
         self.set_style(style);
     }
-
+    
     fn set_monospace_font_style(&self, size: f32, family: FontFamily) {
-        let mut style = Style::default();
-        let text_styles = &mut style.text_styles;
-        *text_styles.get_mut(&TextStyle::Monospace).unwrap() = FontId::new(size, family);
+        let mut style = self.style().deref().clone();
+        *style.text_styles.get_mut(&TextStyle::Monospace).unwrap() = FontId::new(size, family);
         self.set_style(style);
     }
 
     fn set_button_font_style(&self, size: f32, family: FontFamily) {
-        let mut style = Style::default();
-        let text_styles = &mut style.text_styles;
-        *text_styles.get_mut(&TextStyle::Button).unwrap() = FontId::new(size, family);
+        let mut style = self.style().deref().clone();
+        *style.text_styles.get_mut(&TextStyle::Button).unwrap() = FontId::new(size, family);
         self.set_style(style);
     }
 
     fn set_heading_font_style(&self, size: f32, family: FontFamily) {
-        let mut style = Style::default();
-        let text_styles = &mut style.text_styles;
-        *text_styles.get_mut(&TextStyle::Heading).unwrap() = FontId::new(size, family);
+        let mut style = self.style().deref().clone();
+        *style.text_styles.get_mut(&TextStyle::Heading).unwrap() = FontId::new(size, family);
         self.set_style(style);
     }
 
