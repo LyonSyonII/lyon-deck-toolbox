@@ -47,7 +47,6 @@ impl eframe::App for App {
                 
                 }
             });
-            return;
 
             ui.vertical_centered(|ui| {
                 ui.horizontal(|ui| {
