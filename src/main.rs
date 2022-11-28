@@ -48,7 +48,7 @@ impl eframe::App for App {
         });
         
         ui::CentralPanel::default().show(ctx, |ui| {
-            ui.vertical(|ui| {
+            ui.vertical_centered(|ui| {
                 ui.label(RichText::new("Steam Deck Tools").underline().heading());
                 ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
             });
