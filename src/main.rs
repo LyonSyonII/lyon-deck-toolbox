@@ -47,13 +47,6 @@ impl eframe::App for App {
                 
                 }
             });
-
-            ui.vertical_centered(|ui| {
-                ui.horizontal(|ui| {
-                
-                
-                });
-            })
         });
         
         ui::CentralPanel::default().show(ctx, |ui| {
