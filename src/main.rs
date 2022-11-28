@@ -5,7 +5,7 @@ use steam_deck_tools::StyleHelper;
 fn main() {
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
-    native_options.initial_window_size = Some(Vec2::new(500., 300.));
+    native_options.initial_window_size = Some(Vec2::new(200., 50.));
     eframe::run_native(
         "Steam Deck Tools",
         native_options,
