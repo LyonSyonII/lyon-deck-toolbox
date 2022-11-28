@@ -1,4 +1,4 @@
-use eframe::{egui::{self as ui, RichText, Ui, ScrollArea, Layout}, epaint::Vec2, emath::Align};
+use eframe::{egui::{self as ui, RichText, Ui, ScrollArea, Layout, Button}, epaint::Vec2, emath::Align};
 use steam_deck_tools::StyleHelper;
 
 #[allow(clippy::field_reassign_with_default)]
@@ -35,12 +35,27 @@ fn tool(ui: &mut Ui, title: &str, description: &str, checked: &mut bool) {
 
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
+        ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
+            let layout = Layout::left_to_right(Align::Center).with_main_align(Align::RIGHT).with_cross_align(Align::Center);
+            ui.horizontal_wrapped(|ui| {
+                ui.add(Button::new("Install Selected").wrap(true));
+                ui.add(Button::new("Install Selected").wrap(true));
+                return;
+                if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
+                        
+                }
+                if ui.button(RichText::new("Install All").size(8.)).clicked() {
+                
+                }
+            });
+        });
+        
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.label(RichText::new("Steam Deck Tools").underline().heading());
                 ui.label(RichText::new("Select the tools you want to install, or click 'Install All'.").size(5.));
             });
-            
+
             ui.group(|ui| {
                 ScrollArea::vertical().show(ui, |ui| {
                     tool(ui, "Rwfus", "Creates an overlay over the Root filesystem that allows <code>pacman</code> to install packages with SteamOS readonly enabled.", &mut self.rwfus);
@@ -52,22 +67,5 @@ impl eframe::App for App {
                 });
             });
         });
-        ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-            let layout = Layout::left_to_right(Align::Center).with_main_align(Align::RIGHT).with_cross_align(Align::Center);
-            ui.with_layout(layout, |ui| {
-                if ui.button(RichText::new("Install Selected").size(8.)).clicked() {
-                        
-                }
-                if ui.button(RichText::new("Install All").size(8.)).clicked() {
-                
-                }
-            });
-
-            ui.with_layout(Layout::right_to_left(Align::TOP), |ui| {
-                ui.label("world!");
-                ui.label("Hello");
-            });
-        });
-        
     }
 }
