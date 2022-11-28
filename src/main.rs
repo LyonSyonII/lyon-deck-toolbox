@@ -45,6 +45,11 @@ impl eframe::App for App {
                 
                 }
             });
+
+            ui.with_layout(egui::Layout::right_to_left(egui::Align::TOP), |ui| {
+                ui.label("world!");
+                ui.label("Hello");
+            });
         });
         
         ui::CentralPanel::default().show(ctx, |ui| {
