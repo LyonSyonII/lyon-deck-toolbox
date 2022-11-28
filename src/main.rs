@@ -1,8 +1,9 @@
-use eframe::egui::{self as ui, RichText};
+use eframe::{egui::{self as ui, RichText, Ui}, epaint::Vec2};
 use steam_deck_tools::StyleHelper;
 
 fn main() {
-    let native_options = eframe::NativeOptions::default();
+    let mut native_options = eframe::NativeOptions::default();
+    native_options.initial_window_size = Some(Vec2::new(x, y))
     eframe::run_native(
         "Steam Deck Tools",
         native_options,
@@ -24,7 +25,7 @@ impl App {
 }
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
+    fn update(&mut self, ctx: &eframe::egui::Context, frame: &mut eframe::Frame) {
         ui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.heading("Steam Deck Tools");
