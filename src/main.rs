@@ -56,6 +56,7 @@ fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl 
             repo,
         ));
     });
+    ui.separator();
 }
 
 fn tools(ui: &mut Ui) {
@@ -71,7 +72,6 @@ fn tools(ui: &mut Ui) {
                 std::process::Command::new("ls").spawn().unwrap();
             }
         );
-        ui.separator();
         tool(ui, 
             "CryoUtilities", 
             "Scripts and utilities to enhance the Steam Deck experience, particularly performance.\nCurrent Functionality:\n - Swap File Resizer\n - Swappiness Changer", 
@@ -80,7 +80,6 @@ fn tools(ui: &mut Ui) {
 
             }
         );
-        ui.separator();
         tool(ui, 
             "Emudeck", 
             "EmuDeck is a collection of scripts that allows you to autoconfigure your Steam Deck, it creates your roms directory structure and downloads all of the needed Emulators for you along with the best configurations for each of them.", 
