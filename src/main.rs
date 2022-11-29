@@ -9,7 +9,7 @@ use steam_deck_tools::StyleHelper;
 fn main() {
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
-    native_options.initial_window_size = Some(Vec2::new(300., 300.));
+    //native_options.initial_window_size = Some(Vec2::new(300., 300.));
     eframe::run_native(
         "Steam Deck Tools",
         native_options,
@@ -18,16 +18,19 @@ fn main() {
 }
 
 #[derive(Default)]
-struct App;
+struct App {
+    pixels_per_point: f32
+}
+
 impl App {
     fn new(cc: &eframe::CreationContext) -> Self {
-        println!("{:?}", cc.integration_info.native_pixels_per_point);
+        let pixels_per_point = cc.integration_info.native_pixels_per_point.unwrap_or(1.);
         cc.egui_ctx.set_style(ui::Style::default());
-        println!("{:?}", cc.egui_ctx.style().text_styles);
-        //cc.egui_ctx.set_body_font_style(5., eframe::epaint::FontFamily::Proportional);
-        //cc.egui_ctx.set_heading_font_style(12., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx.set_body_font_style(5., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx.set_heading_font_style(12., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
-        Self::default()
+        App { pixels_per_point }
     }
 
     fn install_tools(&self, all: bool) {
@@ -53,10 +56,6 @@ fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl 
 
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
-        ui::TopBottomPanel::bottom("Bottom").show(ctx, |ui| {
-
-        });
-
         CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
                 ui.label(RichText::new("Steam Deck Tools").underline().heading());

@@ -68,6 +68,7 @@ pub trait StyleHelper {
     fn set_button_font_style(&self, size: f32, family: FontFamily);
     fn set_heading_font_style(&self, size: f32, family: FontFamily);
     fn set_font_styles(&self, styles: FontStyles);
+    fn divide_font_sizes_by(&self, by: f32);
 
     fn with_small_font_style(self, size: f32, family: FontFamily) -> Self;
     fn with_body_font_style(self, size: f32, family: FontFamily) -> Self;
@@ -114,6 +115,14 @@ impl StyleHelper for eframe::egui::Context {
         self.set_monospace_font_style(styles.monospace.0, styles.monospace.1);
         self.set_button_font_style(styles.button.0, styles.button.1);
         self.set_heading_font_style(styles.heading.0, styles.heading.1);
+    }
+
+    fn divide_font_sizes_by(&self, by: f32) {
+        let mut style = self.style().deref().clone();
+        for font in &mut style.text_styles.values_mut() {
+            font.size /= by;
+        }
+        self.set_style(style)
     }
 
     fn with_small_font_style(self, size: f32, family: FontFamily) -> Self {
