@@ -59,36 +59,37 @@ fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl 
 }
 
 fn tools(ui: &mut Ui) {
+    ScrollArea::vertical().show(ui, |ui| {
+        tool(ui, 
+            "Rwfus", 
+            "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", 
+            "https://github.com/ValShaped/rwfus", 
+            || {
+                let mut path = std::env::var("HOME").unwrap();
+                path.push_str("/.local/share/");
+                std::env::set_current_dir(path).unwrap();
+                std::process::Command::new("ls").spawn().unwrap();
+            }
+        );
+        tool(ui, 
+            "CryoUtilities", 
+            "Scripts and utilities to enhance the Steam Deck experience, particularly performance.\nCurrent Functionality:\n - Swap File Resizer\n - Swappiness Changer", 
+            "https://github.com/CryoByte33/steam-deck-utilities", 
+            || {
+
+            }
+        );
+        tool(ui, 
+            "Emudeck", 
+            "EmuDeck is a collection of scripts that allows you to autoconfigure your Steam Deck, it creates your roms directory structure and downloads all of the needed Emulators for you along with the best configurations for each of them.", 
+            "https://github.com/dragoonDorise/EmuDeck", 
+            || {
+
+            }
+        );
+    });
     ui.group(|ui| {
-        ScrollArea::vertical().show(ui, |ui| {
-            tool(ui, 
-                "Rwfus", 
-                "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", 
-                "https://github.com/ValShaped/rwfus", 
-                || {
-                    let mut path = std::env::var("HOME").unwrap();
-                    path.push_str("/.local/share/");
-                    std::env::set_current_dir(path).unwrap();
-                    std::process::Command::new("ls").spawn().unwrap();
-                }
-            );
-            tool(ui, 
-                "CryoUtilities", 
-                "Scripts and utilities to enhance the Steam Deck experience, particularly performance.\nCurrent Functionality:\n - Swap File Resizer\n - Swappiness Changer", 
-                "https://github.com/CryoByte33/steam-deck-utilities", 
-                || {
-
-                }
-            );
-            tool(ui, 
-                "Emudeck", 
-                "EmuDeck is a collection of scripts that allows you to autoconfigure your Steam Deck, it creates your roms directory structure and downloads all of the needed Emulators for you along with the best configurations for each of them.", 
-                "https://github.com/dragoonDorise/EmuDeck", 
-                || {
-
-                }
-            );
-        });
+        
     });
 }
 
