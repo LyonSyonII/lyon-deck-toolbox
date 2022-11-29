@@ -19,7 +19,9 @@ fn main() {
 }
 
 #[derive(Default)]
-struct App;
+struct App {
+    enable_install: bool
+}
 
 impl App {
     fn new(cc: &eframe::CreationContext) -> Self {
@@ -28,7 +30,7 @@ impl App {
         cc.egui_ctx.set_small_font_style(16., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.set_body_font_style(22.5, eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.set_heading_font_style(54., eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx.set_button_font_style(20., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx.set_button_font_style(30., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         App::default()
@@ -39,14 +41,14 @@ impl App {
     }
 }
 
-fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl FnOnce()) {
+fn tool(ui: &mut Ui, app: &App, title: &str, description: &str, repo: &str, callback: impl FnOnce()) {
     let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
     let body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
 
     ui.vertical(|ui| {
         ui.horizontal(|ui| {
             ui.label(RichText::new(title).strong().size(heading * 0.67));
-            if ui.add(Button::new(RichText::new("Install"))).clicked() { 
+            if ui.add_enabled(app.enable_install, Button::new(RichText::new("Install"))).clicked() { 
                 callback() 
             }
         });
@@ -59,10 +61,10 @@ fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl 
     ui.separator();
 }
 
-fn tools(ui: &mut Ui) {
+fn tools(ui: &mut Ui, app: &App) {
     ui.separator();
     ScrollArea::vertical().show(ui, |ui| {
-        tool(ui, 
+        tool(ui, app,
             "Rwfus", 
             "Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.", 
             "https://github.com/ValShaped/rwfus", 
@@ -73,7 +75,7 @@ fn tools(ui: &mut Ui) {
                 std::process::Command::new("ls").spawn().unwrap();
             }
         );
-        tool(ui, 
+        tool(ui, app,
             "CryoUtilities", 
             "Scripts and utilities to enhance the Steam Deck experience, particularly performance.\nCurrent Functionality:\n - Swap File Resizer\n - Swappiness Changer", 
             "https://github.com/CryoByte33/steam-deck-utilities", 
@@ -81,7 +83,7 @@ fn tools(ui: &mut Ui) {
 
             }
         );
-        tool(ui, 
+        tool(ui, app,
             "Emudeck", 
             "EmuDeck is a collection of scripts that allows you to autoconfigure your Steam Deck, it creates your roms directory structure and downloads all of the needed Emulators for you along with the best configurations for each of them.", 
             "https://github.com/dragoonDorise/EmuDeck", 
@@ -100,7 +102,7 @@ impl eframe::App for App {
                 ui.label(RichText::new("Click the 'Install' button of each tool to install it.").small());
             });
             
-            tools(ui);
+            tools(ui, self);
         });
     }
 }
