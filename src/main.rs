@@ -96,7 +96,7 @@ impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
-                ui.label(RichText::new("Steam Deck Tools").underline().heading());
+                ui.label(RichText::new("Steam Deck Tools").underline().strong().heading());
                 ui.label(RichText::new("Click the 'Install' button of each tool to install it.").small());
             });
             
