@@ -60,6 +60,7 @@ fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl 
 }
 
 fn tools(ui: &mut Ui) {
+    ui.separator();
     ScrollArea::vertical().show(ui, |ui| {
         tool(ui, 
             "Rwfus", 
@@ -89,7 +90,6 @@ fn tools(ui: &mut Ui) {
             }
         );
     });
-    //ui.group(|ui| {});
 }
 
 impl eframe::App for App {
