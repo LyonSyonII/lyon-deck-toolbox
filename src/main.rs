@@ -28,6 +28,7 @@ impl App {
         cc.egui_ctx.set_small_font_style(16., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.set_body_font_style(22.5, eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.set_heading_font_style(54., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx.set_button_font_style(20., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         App::default()
@@ -45,7 +46,7 @@ fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl 
     ui.vertical(|ui| {
         ui.horizontal(|ui| {
             ui.label(RichText::new(title).size(heading * 0.67));
-            if ui.add(Button::new(RichText::new("Install").size(body))).clicked() { 
+            if ui.add(Button::new(RichText::new("Install"))).clicked() { 
                 callback() 
             }
         });
