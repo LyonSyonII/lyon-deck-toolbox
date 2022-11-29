@@ -21,6 +21,7 @@ fn main() {
 struct App;
 impl App {
     fn new(cc: &eframe::CreationContext) -> Self {
+        println!("{:?}", cc.integration_info.native_pixels_per_point);
         cc.egui_ctx.set_style(ui::Style::default());
         println!("{:?}", cc.egui_ctx.style().text_styles);
         //cc.egui_ctx.set_body_font_style(5., eframe::epaint::FontFamily::Proportional);
