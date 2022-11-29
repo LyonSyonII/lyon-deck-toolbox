@@ -45,7 +45,7 @@ fn tool(ui: &mut Ui, title: &str, description: &str, repo: &str, callback: impl 
 
     ui.vertical(|ui| {
         ui.horizontal(|ui| {
-            ui.label(RichText::new(title).size(heading * 0.67));
+            ui.label(RichText::new(title).strong().size(heading * 0.67));
             if ui.add(Button::new(RichText::new("Install"))).clicked() { 
                 callback() 
             }
