@@ -18,7 +18,6 @@ fn main() {
     )
 }
 
-#[derive(Default)]
 struct App {
     enable_install: bool
 }
@@ -33,7 +32,7 @@ impl App {
         cc.egui_ctx.set_button_font_style(30., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
-        App::default()
+        App { enable_install: true }
     }
 
     fn install_tools(&self, all: bool) {
