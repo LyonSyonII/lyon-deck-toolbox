@@ -4,10 +4,23 @@ use eframe::{
     epaint::Vec2,
 };
 use steam_deck_tools::StyleHelper;
+use serde::{Serialize, Deserialize};
 
+#[derive(Deserialize, Serialize)]
+struct Tool<'i> {
+    title: &'i str,
+    description: &'i str,
+    repo: &'i str,
+    needs_root: bool,
+    install_script: &'i str
+}
 
 #[allow(clippy::field_reassign_with_default)]
 fn main() {
+    let input = std::fs::read("tools.yaml").expect("File not available!");
+    let tools: Vec<Tool> = serde_yaml::from_slice(&input).expect("Unexpected error parsing 'tools.yaml', please open an issue on 'https://github.com/LyonSyonII/steam-deck-tools'!");
+    //std::fs::write("tools.yaml", yaml).unwrap();
+
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
     //native_options.initial_window_size = Some(Vec2::new(300., 300.));

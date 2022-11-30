@@ -1,0 +1,11 @@
+- title: Rwfus
+  description: Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.
+  repo: https://github.com/ValShaped/rwfus
+  needs_root: true
+  install_script: cd $HOME/.local/share; git clone https://github.com/ValShaped/rwfus; cd rwfus; ls;
+
+- title: CryoUtilities
+  description: Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.
+  repo: https://github.com/ValShaped/rwfus
+  needs_root: true
+  install_script: cd $HOME/.local/share; git clone https://github.com/ValShaped/rwfus; cd rwfus; ls;
