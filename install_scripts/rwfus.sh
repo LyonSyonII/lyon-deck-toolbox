@@ -12,6 +12,7 @@ else
     git pull $REPOSRC
 fi
 
-read -n 1 -r -s -p "\nInstallation completed, press any key to close the window..."
+echo;
+read -n 1 -r -s -p "Installation completed, press any key to close the window..."
 
 exit 0;
