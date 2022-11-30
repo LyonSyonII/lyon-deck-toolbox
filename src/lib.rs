@@ -1,4 +1,4 @@
-use std::{ops::Deref, fmt::Debug};
+use std::{fmt::Debug, ops::Deref};
 
 use eframe::{
     egui::{
@@ -156,10 +156,8 @@ impl StyleHelper for eframe::egui::Context {
     }
 }
 
-
 pub const REPO: &str = "https://github.com/LyonSyonII/steam-deck-tools";
-pub const WAIT_KEY: &str = 
-"echo 'Press any key to continue';
+pub const WAIT_KEY: &str = "echo 'Press any key to continue';
 while [ true ] ; do
 read -t 3 -n 1;
 if [ $? = 0 ] ; then
@@ -168,7 +166,7 @@ fi
 done";
 
 pub trait ExpectRepo<T, E> {
-    fn expect_repo(self, msg: &str)-> T;
+    fn expect_repo(self, msg: &str) -> T;
 }
 
 impl<T, E: Debug> ExpectRepo<T, E> for Result<T, E> {

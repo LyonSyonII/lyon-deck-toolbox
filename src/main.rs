@@ -1,12 +1,15 @@
 use std::os::unix::process::CommandExt;
 
 use eframe::{
-    egui::{self as ui, Button, Hyperlink, Layout, RichText, ScrollArea, Ui, CentralPanel, Frame, Style, TextStyle},
+    egui::{
+        self as ui, Button, CentralPanel, Frame, Hyperlink, Layout, RichText, ScrollArea, Style,
+        TextStyle, Ui,
+    },
     emath::Align,
     epaint::Vec2,
 };
-use steam_deck_tools::{ StyleHelper, REPO, ExpectRepo, WAIT_KEY};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
+use steam_deck_tools::{ExpectRepo, StyleHelper, REPO, WAIT_KEY};
 
 #[derive(Deserialize, Serialize)]
 struct Tool {
@@ -14,40 +17,51 @@ struct Tool {
     description: String,
     repo: String,
     needs_root: bool,
-    install_script: String
 }
 
 struct App {
     tools: Vec<Tool>,
-    enable_install: bool
+    enable_install: bool,
 }
 
 impl App {
     fn new(cc: &eframe::CreationContext, tools: Vec<Tool>) -> Self {
         let pixels_per_point = cc.integration_info.native_pixels_per_point.unwrap_or(1.);
         cc.egui_ctx.set_style(ui::Style::default());
-        cc.egui_ctx.set_small_font_style(16., eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx.set_body_font_style(22.5, eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx.set_heading_font_style(54., eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx.set_button_font_style(30., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx
+            .set_small_font_style(16., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx
+            .set_body_font_style(22.5, eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx
+            .set_heading_font_style(54., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx
+            .set_button_font_style(30., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
-        App { tools, enable_install: true }
+        App {
+            tools,
+            enable_install: true,
+        }
     }
-    
-    fn install_tools(&self, all: bool) {
-        
-    }
+}
+
+fn download_from_repo(file: impl AsRef<std::path::Path>) -> String {
+    let file = file.as_ref();
+    println!("Downloading latest {file:?} from {REPO}...");
+    git_download::repo(REPO)
+        .add_file("tools.yaml", "tmp.sdt")
+        .branch_name("main")
+        .exec()
+        .expect_repo(&format!("Failed downloading {file:?}"));
+    let input = std::fs::read_to_string("tmp").expect_repo(&format!("Failed opening {file:?}"));
+    std::fs::remove_file("tmp.sdt").expect_repo(&format!("Failed removing temporary {file:?}"));
+    input
 }
 
 #[allow(clippy::field_reassign_with_default)]
 fn main() {
-    println!("Downloading latest tools from {REPO}...");
-    git_download::repo("https://github.com/LyonSyonII/steam-deck-tools").add_file("tools.yaml", "tools.yaml").branch_name("main").exec().expect_repo("Failed downloading 'tools.yaml'");
-    let input = std::fs::read("tools.yaml").expect_repo("Failed opening 'tools.yaml'");
-    //std::fs::remove_file("tools.yaml").expect_repo("Failed removing temporary 'tools.yaml'");
-    let tools: Vec<Tool> = serde_yaml::from_slice(input.as_slice()).expect_repo("Failed parsing 'tools.yaml'");
-    //std::fs::write("tools.yaml", yaml).unwrap();
+    let input = download_from_repo("tools.yaml");
+    let tools: Vec<Tool> = serde_yaml::from_str(&input).expect_repo("Failed parsing 'tools.yaml'");
     
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
@@ -66,9 +80,17 @@ fn tool(ui: &mut Ui, app: &App, tool: &Tool) {
     ui.vertical(|ui| {
         ui.horizontal(|ui| {
             ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
-            if ui.add_enabled(app.enable_install, Button::new(RichText::new("Install"))).clicked() {
-                let install_script = format!("{};echo 'Installation completed, you can close the window now'", tool.install_script);
-                std::process::Command::new("konsole").args(["--hold", "-e", "sh", "-c", &install_script]).spawn().unwrap();
+            if ui
+                .add_enabled(app.enable_install, Button::new(RichText::new("Install")))
+                .clicked()
+            {
+                //println!("Downloading {} install script...", tool.title);
+                let file = format!("install_scripts/{}.sh", tool.title.to_ascii_lowercase());
+                let script = download_from_repo(file);
+                std::process::Command::new("konsole")
+                    .args(["--hold", "-e", "sh", "-c", &script])
+                    .spawn()
+                    .unwrap();
             }
         });
         ui.label(RichText::from(&tool.description));
@@ -93,10 +115,17 @@ impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
-                ui.label(RichText::new("Steam Deck Tools").underline().strong().heading());
-                ui.label(RichText::new("Click the 'Install' button of each tool to install it.").small());
+                ui.label(
+                    RichText::new("Steam Deck Tools")
+                        .underline()
+                        .strong()
+                        .heading(),
+                );
+                ui.label(
+                    RichText::new("Click the 'Install' button of each tool to install it.").small(),
+                );
             });
-            
+
             tools(ui, self);
         });
     }
