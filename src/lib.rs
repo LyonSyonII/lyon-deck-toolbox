@@ -154,6 +154,7 @@ impl StyleHelper for eframe::egui::Context {
 }
 
 pub const REPO: &str = "https://github.com/LyonSyonII/steam-deck-tools";
+pub const REPO_RAW: &str = "https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main";
 
 pub trait ExpectRepo<T, E> {
     fn expect_repo(self, msg: &str) -> T;
@@ -164,4 +165,30 @@ impl<T, E: Debug> ExpectRepo<T, E> for Result<T, E> {
         let msg = &format!("Unexpected error: {msg}. Please open an issue on {REPO}");
         self.expect(msg)
     }
+}
+
+use curl::easy::{Easy2, Handler, WriteError};
+
+struct Collector(String);
+
+impl Collector {
+    fn new() -> Collector {
+        Collector(String::new())
+    }
+}
+
+impl Handler for Collector {
+    fn write(&mut self, data: &[u8]) -> Result<usize, WriteError> {
+        self.0.push_str(std::str::from_utf8(data).unwrap());
+        Ok(data.len())
+    }
+}
+
+pub fn download_from_repo(file: impl AsRef<str>) -> String {
+    let file = file.as_ref();
+    println!("Downloading latest {file:?} from {REPO}...");
+    let mut handle = curl::easy::Easy2::new(Collector::new());
+    handle.url(&format!("{REPO_RAW}/{file}")).unwrap();
+    handle.perform().unwrap();
+    handle.get_ref().0.to_owned()
 }

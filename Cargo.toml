@@ -9,7 +9,7 @@ edition = "2021"
 eframe = "0.19.0"
 serde = { version = "1.0.148", features = ["derive"] }
 serde_yaml = "0.9.14"
-git-download = "0.1.1"
+curl = "0.4.44"
 
 [profile.release]
 strip = true 

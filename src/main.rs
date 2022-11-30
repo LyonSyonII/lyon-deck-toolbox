@@ -6,7 +6,9 @@ use eframe::{
     epaint::Vec2,
 };
 use serde::{Deserialize};
-use steam_deck_tools::{ExpectRepo, StyleHelper, REPO};
+use curl::easy::Easy2;
+use curl::easy::Handler;
+use steam_deck_tools::{ExpectRepo, StyleHelper, REPO, REPO_RAW, download_from_repo};
 
 #[derive(Deserialize)]
 struct Tool {
@@ -84,19 +86,6 @@ impl App {
             .output()
             .unwrap();
     }
-}
-
-fn download_from_repo(file: impl AsRef<std::path::Path>) -> String {
-    let file = file.as_ref();
-    println!("Downloading latest {file:?} from {REPO}...");
-    git_download::repo(REPO)
-        .add_file(file, "tmp.sdt")
-        .branch_name("main")
-        .exec()
-        .expect_repo(&format!("Failed downloading {file:?}"));
-    let input = std::fs::read_to_string("tmp.sdt").expect_repo(&format!("Failed opening {file:?}"));
-    std::fs::remove_file("tmp.sdt").expect_repo(&format!("Failed removing temporary {file:?}"));
-    input
 }
 
 #[allow(clippy::field_reassign_with_default)]
