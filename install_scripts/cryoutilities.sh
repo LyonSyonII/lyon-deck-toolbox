@@ -1,5 +1,3 @@
-#!/bin/sh
-
 REPOSRC=https://github.com/CryoByte33/steam-deck-utilities
 LOCALREPO=$HOME/.local/share/cryo-utilities
 

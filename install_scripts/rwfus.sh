@@ -1,5 +1,3 @@
-#!/bin/sh
-
 REPOSRC=https://github.com/ValShaped/rwfus
 LOCALREPO=$HOME/.local/share/rwfus
 
@@ -14,4 +12,6 @@ else
     git pull $REPOSRC
 fi
 
-echo -n "Installation completed! Press any key to close the window." && read
+read -n 1 -r -s -p "\nInstallation completed, press any key to close the window..."
+
+exit 0;

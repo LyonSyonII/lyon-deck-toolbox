@@ -88,7 +88,7 @@ fn tool(ui: &mut Ui, app: &App, tool: &Tool) {
                 let file = format!("install_scripts/{}.sh", tool.title.to_ascii_lowercase());
                 let script = download_from_repo(file);
                 std::process::Command::new("konsole")
-                    .args(["--hold", "-e", "sh", "-c", &script])
+                    .args(["--hold", "-e", &script])
                     .spawn()
                     .unwrap();
             }
