@@ -13,5 +13,5 @@ git-download = "0.1.1"
 
 [profile.release]
 strip = true 
-opt-level = "z"
+opt-level = 2
 lto = true

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Comment=A collection of tools and utilities for enhancing the experience with the Steam Deck.
-Exec=curl https://raw.githubusercontent.com/CryoByte33/steam-deck-utilities/main/install.sh | bash -s --
+Exec=curl -L https://github.com/LyonSyonII/steam-deck-tools/raw/main/steam-deck-tools --output $HOME/.cache/steam-deck-tools; chmod u+x $HOME/.cache/steam-deck-tools; ./$HOME/.cache/steam-deck-tools
 Icon=distributor-logo-steamdeck
 Name[en_US]=Steam Deck Tools
 Name=Steam Deck Tools
