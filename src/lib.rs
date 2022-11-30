@@ -1,4 +1,4 @@
-use std::ops::Deref;
+use std::{ops::Deref, fmt::Debug};
 
 use eframe::{
     egui::{
@@ -153,5 +153,19 @@ impl StyleHelper for eframe::egui::Context {
     fn with_font_styles(self, styles: FontStyles) -> Self {
         self.set_font_styles(styles);
         self
+    }
+}
+
+
+pub const REPO: &str = "https://github.com/LyonSyonII/steam-deck-tools";
+
+pub trait ExpectRepo<T, E> {
+    fn expect_repo(self, msg: &str)-> T;
+}
+
+impl<T, E: Debug> ExpectRepo<T, E> for Result<T, E> {
+    fn expect_repo(self, msg: &str) -> T {
+        let msg = &format!("Unexpected error: {msg}. Please open an issue on {REPO}");
+        self.expect(msg)
     }
 }

@@ -5,7 +5,13 @@
   install_script: cd $HOME/.local/share; git clone https://github.com/ValShaped/rwfus; cd rwfus; ls;
 
 - title: CryoUtilities
-  description: Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.
-  repo: https://github.com/ValShaped/rwfus
+  description: Scripts and utilities to enhance the Steam Deck experience, particularly performance.\nCurrent Functionality:\n - Swap File Resizer\n - Swappiness Changer.
+  repo: https://github.com/CryoByte33/steam-deck-utilities
   needs_root: true
-  install_script: cd $HOME/.local/share; git clone https://github.com/ValShaped/rwfus; cd rwfus; ls;
+  install_script: cd $HOME/.local/share; git clone https://github.com/CryoByte33/steam-deck-utilities; cd steam-deck-utilities; ls;
+
+- title: Emudeck
+  description: EmuDeck is a collection of scripts that allows you to autoconfigure your Steam Deck, it creates your roms directory structure and downloads all of the needed Emulators for you along with the best configurations for each of them.
+  repo: https://github.com/dragoonDorise/EmuDeck
+  needs_root: false
+  install_script: echo "Downloading EmuDeck AppImage, please wait" && mkdir -p ~/Applications && curl -L "$(curl -s https://api.github.com/repos/EmuDeck/emudeck-electron/releases/latest | grep -E 'browser_download_url.*AppImage' | cut -d '"' -f 4)" > ~/Applications/EmuDeck.AppImage && chmod +x ~/Applications/EmuDeck.AppImage && ~/Applications/EmuDeck.AppImage && exit
