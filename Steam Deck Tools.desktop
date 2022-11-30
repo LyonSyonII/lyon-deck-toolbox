@@ -1,8 +1,9 @@
-#!/usr/bin/env xdg-open
 [Desktop Entry]
-Name=Steam Deck Tools
+Comment=A collection of tools and utilities for enhancing the experience with the Steam Deck.
 Exec=curl https://raw.githubusercontent.com/CryoByte33/steam-deck-utilities/main/install.sh | bash -s --
-Icon=steamdeck-gaming-return
+Icon=distributor-logo-steamdeck
+Name[en_US]=Steam Deck Tools
+Name=Steam Deck Tools
+StartupNotify=false
 Terminal=true
 Type=Application
-StartupNotify=false
