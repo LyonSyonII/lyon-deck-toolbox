@@ -12,8 +12,7 @@ else
     git pull $REPOSRC
 fi
 
-chmod u+x cryo_utilities.sh
-./cryo_utilities.sh
+curl https://raw.githubusercontent.com/CryoByte33/steam-deck-utilities/main/install.sh | bash -s --
 
 echo;
 read -n 1 -r -s -p "Installation completed, press any key to close the window..."
