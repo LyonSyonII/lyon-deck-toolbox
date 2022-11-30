@@ -3,15 +3,15 @@ use std::os::unix::process::CommandExt;
 use eframe::{
     egui::{
         self as ui, Button, CentralPanel, Frame, Hyperlink, Layout, RichText, ScrollArea, Style,
-        TextStyle, Ui,
+        TextStyle, Ui, Window,
     },
     emath::Align,
     epaint::Vec2,
 };
 use serde::{Deserialize, Serialize};
-use steam_deck_tools::{ExpectRepo, StyleHelper, REPO, WAIT_KEY};
+use steam_deck_tools::{ExpectRepo, StyleHelper, REPO};
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Clone)]
 struct Tool {
     title: String,
     description: String,
@@ -21,7 +21,6 @@ struct Tool {
 
 struct App {
     tools: Vec<Tool>,
-    enable_install: bool,
 }
 
 impl App {
@@ -40,8 +39,54 @@ impl App {
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         App {
             tools,
-            enable_install: true,
         }
+    }
+    
+    fn tool(ui: &mut Ui, tool: &Tool) {
+        let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
+        let body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
+    
+        ui.vertical(|ui| {
+            ui.horizontal(|ui| {
+                ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
+                if ui.add(Button::new(RichText::new("Install")))
+                     .clicked()
+                {
+                    Self::install_tool(&tool.title, tool.needs_root);
+                }
+            });
+            ui.label(RichText::from(&tool.description));
+            ui.add(Hyperlink::from_label_and_url(
+                RichText::new("Repo").small(),
+                &tool.repo,
+            ));
+        });
+        ui.separator();
+    }
+    
+    fn tools(&self, ui: &mut Ui) {
+        ui.separator();
+        ScrollArea::vertical().show(ui, |ui| {
+            for t in &self.tools {
+                Self::tool(ui, t);
+            }
+        });
+    }
+
+    fn install_tool(title: impl AsRef<str>, needs_root: bool) {
+        let mut script = if needs_root {
+            download_from_repo("install_scripts/needs_root.sh")
+        } else {
+            String::new()
+        };
+        let title = title.as_ref();
+        let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase());
+        script.push_str(&download_from_repo(file));
+        
+        std::process::Command::new("konsole")
+            .args(["-e", "sh", "-c", &script])
+            .output()
+            .unwrap();
     }
 }
 
@@ -73,44 +118,6 @@ fn main() {
     )
 }
 
-fn tool(ui: &mut Ui, app: &App, tool: &Tool) {
-    let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
-    let body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
-
-    ui.vertical(|ui| {
-        ui.horizontal(|ui| {
-            ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
-            if ui
-                .add_enabled(app.enable_install, Button::new(RichText::new("Install")))
-                .clicked()
-            {
-                //println!("Downloading {} install script...", tool.title);
-                let file = format!("install_scripts/{}.sh", tool.title.to_ascii_lowercase());
-                let script = download_from_repo(file);
-                std::process::Command::new("konsole")
-                    .args(["-e", "sh", "-c", &script])
-                    .spawn()
-                    .unwrap();
-            }
-        });
-        ui.label(RichText::from(&tool.description));
-        ui.add(Hyperlink::from_label_and_url(
-            RichText::new("Repo").small(),
-            &tool.repo,
-        ));
-    });
-    ui.separator();
-}
-
-fn tools(ui: &mut Ui, app: &App) {
-    ui.separator();
-    ScrollArea::vertical().show(ui, |ui| {
-        for t in &app.tools {
-            tool(ui, app, t);
-        }
-    });
-}
-
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
         CentralPanel::default().show(ctx, |ui| {
@@ -125,8 +132,8 @@ impl eframe::App for App {
                     RichText::new("Click the 'Install' button of each tool to install it.").small(),
                 );
             });
-
-            tools(ui, self);
+            
+            self.tools(ui);
         });
     }
 }

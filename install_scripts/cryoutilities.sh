@@ -12,5 +12,8 @@ else
     git pull $REPOSRC
 fi
 
-echo 'Installation completed, you can close the window now'
+echo;
+read -n 1 -r -s -p "Installation completed, press any key to close the window..."
+
+exit 0;
 

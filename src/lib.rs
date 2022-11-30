@@ -157,13 +157,6 @@ impl StyleHelper for eframe::egui::Context {
 }
 
 pub const REPO: &str = "https://github.com/LyonSyonII/steam-deck-tools";
-pub const WAIT_KEY: &str = "echo 'Press any key to continue';
-while [ true ] ; do
-read -t 3 -n 1;
-if [ $? = 0 ] ; then
-exit ;
-fi
-done";
 
 pub trait ExpectRepo<T, E> {
     fn expect_repo(self, msg: &str) -> T;
