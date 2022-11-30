@@ -1,7 +1,7 @@
 # Steam Deck Tools
 A collection of tools and utilities for enhancing the experience with the Steam Deck.
 
-![Screenshot]([http://url/to/img.png](https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main/assets/screenshot.png))
+![Screenshot](https://github.com/LyonSyonII/steam-deck-tools/blob/main/assets/screenshot.png)
 
 
 ### Install
