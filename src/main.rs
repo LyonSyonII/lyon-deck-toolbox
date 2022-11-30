@@ -45,14 +45,15 @@ impl App {
     fn tool(ui: &mut Ui, tool: &Tool) {
         let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
         let body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
-    
+        let description = tool.description.replace("\\n", "\n");
+
         ui.horizontal(|ui| {
             if ui.add(Button::new(RichText::new("Install"))).clicked() {
                 Self::install_tool(&tool.title, tool.needs_root);
             }     
             ui.vertical(|ui| {
                 ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
-                ui.label(RichText::from(&tool.description));
+                ui.label(RichText::from(&description));
                 ui.add(Hyperlink::from_label_and_url(
                     RichText::new("Repo").small(),
                     &tool.repo,
@@ -108,7 +109,7 @@ fn main() {
     
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
-    //native_options.initial_window_size = Some(Vec2::new(300., 300.));
+    native_options.initial_window_size = Some(Vec2::new(1920., 1080.));
     eframe::run_native(
         "Steam Deck Tools",
         native_options,
