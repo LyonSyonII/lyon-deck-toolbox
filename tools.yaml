@@ -7,10 +7,13 @@
   description: Scripts and utilities to enhance the Steam Deck experience, particularly performance.\nCurrent Functionality:\n - Swap File Resizer\n - Swappiness Changer.
   repo: https://github.com/CryoByte33/steam-deck-utilities
   needs_root: true
-  install_script: 
 
 - title: Emudeck
   description: EmuDeck is a collection of scripts that allows you to autoconfigure your Steam Deck, it creates your roms directory structure and downloads all of the needed Emulators for you along with the best configurations for each of them.
   repo: https://github.com/dragoonDorise/EmuDeck
   needs_root: false
-  install_script: 
+
+- title: Decky-loader
+  description: Decky Loader is a homebrew plugin launcher for the Steam Deck.
+  repo: https://github.com/SteamDeckHomebrew/decky-loader
+  needs_root: true
