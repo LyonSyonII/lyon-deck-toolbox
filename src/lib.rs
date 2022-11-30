@@ -192,3 +192,19 @@ pub fn download_from_repo(file: impl AsRef<str>) -> String {
     handle.perform().unwrap();
     handle.get_ref().0.to_owned()
 }
+
+pub fn install_tool(title: impl AsRef<str>, needs_root: bool) {
+    let mut script = if needs_root {
+        download_from_repo("install_scripts/needs_root.sh")
+    } else {
+        String::new()
+    };
+    let title = title.as_ref();
+    let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase());
+    script.push_str(&download_from_repo(file));
+    
+    std::process::Command::new("konsole")
+        .args(["-e", "sh", "-c", &script])
+        .output()
+        .unwrap();
+}

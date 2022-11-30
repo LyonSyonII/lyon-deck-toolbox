@@ -6,9 +6,7 @@ use eframe::{
     epaint::Vec2,
 };
 use serde::{Deserialize};
-use curl::easy::Easy2;
-use curl::easy::Handler;
-use steam_deck_tools::{ExpectRepo, StyleHelper, REPO, REPO_RAW, download_from_repo};
+use steam_deck_tools::{ExpectRepo, StyleHelper, download_from_repo, install_tool};
 
 #[derive(Deserialize)]
 struct Tool {
@@ -48,7 +46,7 @@ impl App {
 
         ui.horizontal(|ui| {
             if ui.add(Button::new(RichText::new("Install"))).clicked() {
-                Self::install_tool(&tool.title, tool.needs_root);
+                install_tool(&tool.title, tool.needs_root);
             }     
             ui.vertical(|ui| {
                 ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
@@ -69,22 +67,6 @@ impl App {
                 Self::tool(ui, t);
             }
         });
-    }
-
-    fn install_tool(title: impl AsRef<str>, needs_root: bool) {
-        let mut script = if needs_root {
-            download_from_repo("install_scripts/needs_root.sh")
-        } else {
-            String::new()
-        };
-        let title = title.as_ref();
-        let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase());
-        script.push_str(&download_from_repo(file));
-        
-        std::process::Command::new("konsole")
-            .args(["-e", "sh", "-c", &script])
-            .output()
-            .unwrap();
     }
 }
 
