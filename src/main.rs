@@ -46,27 +46,25 @@ impl App {
         let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
         let body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
     
-        ui.vertical(|ui| {
-            ui.horizontal(|ui| {
+        ui.horizontal(|ui| {
+            if ui.add(Button::new(RichText::new("Install"))).clicked() {
+                Self::install_tool(&tool.title, tool.needs_root);
+            }     
+            ui.vertical(|ui| {
                 ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
-                if ui.add(Button::new(RichText::new("Install")))
-                     .clicked()
-                {
-                    Self::install_tool(&tool.title, tool.needs_root);
-                }
+                ui.label(RichText::from(&tool.description));
+                ui.add(Hyperlink::from_label_and_url(
+                    RichText::new("Repo").small(),
+                    &tool.repo,
+                ));
             });
-            ui.label(RichText::from(&tool.description));
-            ui.add(Hyperlink::from_label_and_url(
-                RichText::new("Repo").small(),
-                &tool.repo,
-            ));
         });
         ui.separator();
     }
     
     fn tools(&self, ui: &mut Ui) {
-        ui.separator();
         ScrollArea::vertical().show(ui, |ui| {
+            ui.separator();
             for t in &self.tools {
                 Self::tool(ui, t);
             }
