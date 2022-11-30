@@ -13,5 +13,6 @@ git-download = "0.1.1"
 
 [profile.release]
 strip = true 
-opt-level = 2
+opt-level = 3
 lto = true
+codegen-units = 1

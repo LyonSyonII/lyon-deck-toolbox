@@ -1,9 +1,9 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
 Comment=A collection of tools and utilities for enhancing the experience with the Steam Deck.
-Exec=curl -L https://github.com/LyonSyonII/steam-deck-tools/raw/main/steam-deck-tools --output $HOME/.cache/steam-deck-tools; chmod u+x $HOME/.cache/steam-deck-tools; ./$HOME/.cache/steam-deck-tools
+Exec=curl -L https://github.com/LyonSyonII/steam-deck-tools/raw/main/steam-deck-tools --output $HOME/.cache/steam-deck-tools && chmod u+x $HOME/.cache/steam-deck-tools && $HOME/.cache/steam-deck-tools
 Icon=distributor-logo-steamdeck
 Name[en_US]=Steam Deck Tools
 Name=Steam Deck Tools
-StartupNotify=false
 Terminal=true
 Type=Application
