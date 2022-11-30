@@ -1,9 +1,11 @@
+use std::os::unix::process::CommandExt;
+
 use eframe::{
     egui::{self as ui, Button, Hyperlink, Layout, RichText, ScrollArea, Ui, CentralPanel, Frame, Style, TextStyle},
     emath::Align,
     epaint::Vec2,
 };
-use steam_deck_tools::{ StyleHelper, REPO, ExpectRepo};
+use steam_deck_tools::{ StyleHelper, REPO, ExpectRepo, WAIT_KEY};
 use serde::{Serialize, Deserialize};
 
 #[derive(Deserialize, Serialize)]
@@ -43,10 +45,10 @@ fn main() {
     println!("Downloading latest tools from {REPO}...");
     git_download::repo("https://github.com/LyonSyonII/steam-deck-tools").add_file("tools.yaml", "tools.yaml").branch_name("main").exec().expect_repo("Failed downloading 'tools.yaml'");
     let input = std::fs::read("tools.yaml").expect_repo("Failed opening 'tools.yaml'");
-    std::fs::remove_file("tools.yaml").expect_repo("Failed removing temporary 'tools.yaml'");
+    //std::fs::remove_file("tools.yaml").expect_repo("Failed removing temporary 'tools.yaml'");
     let tools: Vec<Tool> = serde_yaml::from_slice(input.as_slice()).expect_repo("Failed parsing 'tools.yaml'");
     //std::fs::write("tools.yaml", yaml).unwrap();
-
+    
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
     //native_options.initial_window_size = Some(Vec2::new(300., 300.));
@@ -65,7 +67,7 @@ fn tool(ui: &mut Ui, app: &App, tool: &Tool) {
         ui.horizontal(|ui| {
             ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
             if ui.add_enabled(app.enable_install, Button::new(RichText::new("Install"))).clicked() { 
-                std::process::Command::new("sh").arg("-c").arg(&tool.install_script).output().expect_repo(&format!("Failed running installer for {}", tool.title));
+                std::process::Command::new("konsole").arg("--hold").arg("-e").arg("sh").arg("-e").arg(&tool.install_script).output().expect_repo(&format!("Failed running installer for {}", tool.title));
             }
         });
         ui.label(RichText::from(&tool.description));
