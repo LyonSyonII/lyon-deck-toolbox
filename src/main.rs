@@ -49,11 +49,11 @@ fn download_from_repo(file: impl AsRef<std::path::Path>) -> String {
     let file = file.as_ref();
     println!("Downloading latest {file:?} from {REPO}...");
     git_download::repo(REPO)
-        .add_file("tools.yaml", "tmp.sdt")
+        .add_file(file, "tmp.sdt")
         .branch_name("main")
         .exec()
         .expect_repo(&format!("Failed downloading {file:?}"));
-    let input = std::fs::read_to_string("tmp").expect_repo(&format!("Failed opening {file:?}"));
+    let input = std::fs::read_to_string("tmp.sdt").expect_repo(&format!("Failed opening {file:?}"));
     std::fs::remove_file("tmp.sdt").expect_repo(&format!("Failed removing temporary {file:?}"));
     input
 }
