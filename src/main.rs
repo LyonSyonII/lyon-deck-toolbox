@@ -66,8 +66,9 @@ fn tool(ui: &mut Ui, app: &App, tool: &Tool) {
     ui.vertical(|ui| {
         ui.horizontal(|ui| {
             ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
-            if ui.add_enabled(app.enable_install, Button::new(RichText::new("Install"))).clicked() { 
-                std::process::Command::new("konsole").arg("--hold").arg("-e").arg("sh").arg("-e").arg(&tool.install_script).output().expect_repo(&format!("Failed running installer for {}", tool.title));
+            if ui.add_enabled(app.enable_install, Button::new(RichText::new("Install"))).clicked() {
+                let install_script = format!("{};echo 'Installation completed, you can close the window now'", tool.install_script);
+                std::process::Command::new("konsole").args(["--hold", "-e", "sh", "-c", &install_script]).spawn().unwrap();
             }
         });
         ui.label(RichText::from(&tool.description));
