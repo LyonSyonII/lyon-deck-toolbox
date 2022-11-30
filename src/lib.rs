@@ -1,10 +1,7 @@
 use std::{fmt::Debug, ops::Deref};
 
 use eframe::{
-    egui::{
-        Style,
-        TextStyle::{self, Body, Button, Heading, Monospace, Small},
-    },
+    egui::TextStyle,
     epaint::{FontFamily, FontId},
 };
 

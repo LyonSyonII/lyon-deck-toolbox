@@ -1,17 +1,14 @@
-use std::os::unix::process::CommandExt;
-
 use eframe::{
     egui::{
-        self as ui, Button, CentralPanel, Frame, Hyperlink, Layout, RichText, ScrollArea, Style,
-        TextStyle, Ui, Window,
+        self as ui, Button, CentralPanel, Hyperlink, RichText, ScrollArea,
+        TextStyle, Ui,
     },
-    emath::Align,
     epaint::Vec2,
 };
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 use steam_deck_tools::{ExpectRepo, StyleHelper, REPO};
 
-#[derive(Deserialize, Serialize, Clone)]
+#[derive(Deserialize)]
 struct Tool {
     title: String,
     description: String,
@@ -44,7 +41,7 @@ impl App {
     
     fn tool(ui: &mut Ui, tool: &Tool) {
         let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
-        let body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
+        let _body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
         let description = tool.description.replace("\\n", "\n");
 
         ui.horizontal(|ui| {
@@ -105,8 +102,9 @@ fn download_from_repo(file: impl AsRef<std::path::Path>) -> String {
 #[allow(clippy::field_reassign_with_default)]
 fn main() {
     let input = download_from_repo("tools.yaml");
+    println!("Parsing 'tools.yaml'...");
     let tools: Vec<Tool> = serde_yaml::from_str(&input).expect_repo("Failed parsing 'tools.yaml'");
-    
+    println!("Starting GUI...");
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
     native_options.initial_window_size = Some(Vec2::new(1920., 1080.));
