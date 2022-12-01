@@ -167,7 +167,7 @@ impl<T, E: Debug> ExpectRepo<T, E> for Result<T, E> {
     }
 }
 
-use curl::easy::{Easy2, Handler, WriteError};
+use curl::easy::{Handler, WriteError};
 
 struct Collector(String);
 
