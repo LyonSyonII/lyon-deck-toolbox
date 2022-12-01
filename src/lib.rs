@@ -167,31 +167,11 @@ impl<T, E: Debug> ExpectRepo<T, E> for Result<T, E> {
     }
 }
 
-use curl::easy::{Handler, WriteError};
-
-struct Collector(String);
-
-impl Collector {
-    fn new() -> Collector {
-        Collector(String::new())
-    }
-}
-
-impl Handler for Collector {
-    fn write(&mut self, data: &[u8]) -> Result<usize, WriteError> {
-        self.0.push_str(std::str::from_utf8(data).expect_repo(""));
-        Ok(data.len())
-    }
-}
-
 pub fn download_from_repo(file: impl AsRef<str>) -> String {
     let file = file.as_ref();
     println!("Downloading latest '{file}' from {REPO}...");
-    let mut handle = curl::easy::Easy2::new(Collector::new());
     let url = format!("{REPO_RAW}/{file}");
-    handle.url(&url).expect_repo(&format!("{url} is not a valid url"));
-    handle.perform().expect_repo(&format!("Failed downloading '{file}' from {REPO}"));
-    handle.get_ref().0.to_owned()
+    ureq::get(&url).call().expect_repo(&format!("Failed downloading '{file}' from {url}")).into_string().expect_repo("Failed converting '{file}' to readable format")
 }
 
 pub fn install_tool(title: impl AsRef<str>, needs_root: bool) {
