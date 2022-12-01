@@ -1,12 +1,9 @@
 use eframe::{
-    egui::{
-        self as ui, Button, CentralPanel, Hyperlink, RichText, ScrollArea,
-        TextStyle, Ui,
-    },
+    egui::{self as ui, Button, CentralPanel, Hyperlink, RichText, ScrollArea, TextStyle, Ui},
     epaint::Vec2,
 };
-use serde::{Deserialize};
-use steam_deck_tools::{ExpectRepo, StyleHelper, download_from_repo, install_tool};
+use serde::Deserialize;
+use steam_deck_tools::{download_from_repo, install_tool, ExpectRepo, StyleHelper};
 
 #[derive(Deserialize)]
 struct Tool {
@@ -34,20 +31,20 @@ impl App {
             .set_button_font_style(30., eframe::epaint::FontFamily::Proportional);
         cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
-        App {
-            tools,
-        }
+        App { tools }
     }
     
     fn tool(ui: &mut Ui, tool: &Tool) {
+        // SAFETY: unwrap is safe, text_styles is guaranteed to contain TextStyle::Heading
         let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
+        // SAFETY: unwrap is safe, text_styles is guaranteed to contain TextStyle::Body
         let _body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
         let description = tool.description.replace("\\n", "\n");
 
         ui.horizontal(|ui| {
             if ui.add(Button::new(RichText::new("Install"))).clicked() {
                 install_tool(&tool.title, tool.needs_root);
-            }     
+            }
             ui.vertical(|ui| {
                 ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
                 ui.label(RichText::from(&description));
@@ -59,7 +56,7 @@ impl App {
         });
         ui.separator();
     }
-    
+
     fn tools(&self, ui: &mut Ui) {
         ScrollArea::vertical().show(ui, |ui| {
             ui.separator();
@@ -100,7 +97,7 @@ impl eframe::App for App {
                     RichText::new("Click the 'Install' button of each tool to install it.").small(),
                 );
             });
-            
+
             self.tools(ui);
         });
     }

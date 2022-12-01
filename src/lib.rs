@@ -179,17 +179,18 @@ impl Collector {
 
 impl Handler for Collector {
     fn write(&mut self, data: &[u8]) -> Result<usize, WriteError> {
-        self.0.push_str(std::str::from_utf8(data).unwrap());
+        self.0.push_str(std::str::from_utf8(data).expect_repo(""));
         Ok(data.len())
     }
 }
 
 pub fn download_from_repo(file: impl AsRef<str>) -> String {
     let file = file.as_ref();
-    println!("Downloading latest {file:?} from {REPO}...");
+    println!("Downloading latest '{file}' from {REPO}...");
     let mut handle = curl::easy::Easy2::new(Collector::new());
-    handle.url(&format!("{REPO_RAW}/{file}")).unwrap();
-    handle.perform().unwrap();
+    let url = format!("{REPO_RAW}/{file}");
+    handle.url(&url).expect_repo(&format!("{url} is not a valid url"));
+    handle.perform().expect_repo(&format!("Failed downloading '{file}' from {REPO}"));
     handle.get_ref().0.to_owned()
 }
 
@@ -202,9 +203,9 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) {
     let title = title.as_ref();
     let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase());
     script.push_str(&download_from_repo(file));
-    
+
     std::process::Command::new("konsole")
         .args(["-e", "sh", "-c", &script])
         .output()
-        .unwrap();
+        .expect_repo(&format!("Failed running '{title}' install script."));
 }
