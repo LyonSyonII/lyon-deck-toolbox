@@ -9,7 +9,7 @@ edition = "2021"
 eframe = "0.19.0"
 serde = { version = "1.0.148", features = ["derive"] }
 serde_yaml = "0.9.14"
-curl = { version = "0.4.44", features = ["static-curl", "static-ssl"] }
+curl = { version = "0.4.44", features = ["static-curl", "rustls"] }
 
 [profile.release]
 strip = true 
