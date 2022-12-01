@@ -171,7 +171,7 @@ pub fn download_from_repo(file: impl AsRef<str>) -> String {
     let file = file.as_ref();
     println!("Downloading latest '{file}' from {REPO}...");
     let url = format!("{REPO_RAW}/{file}");
-    ureq::get(&url).call().expect_repo(&format!("Failed downloading '{file}' from {url}")).into_string().expect_repo("Failed converting '{file}' to readable format")
+    curl(&url)
 }
 
 pub fn install_tool(title: impl AsRef<str>, needs_root: bool) {
@@ -188,4 +188,9 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) {
         .args(["-e", "sh", "-c", &script])
         .output()
         .expect_repo(&format!("Failed running '{title}' install script."));
+}
+
+pub fn curl(url: &str) -> String {
+    let out = std::process::Command::new("curl").args(["-L", url]).output().unwrap();
+    String::from_utf8(out.stdout).unwrap()
 }
