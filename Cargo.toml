@@ -13,7 +13,7 @@ curl = { version = "0.4.44", features = ["static-curl", "static-ssl"] }
 
 [profile.release]
 strip = true 
-opt-level = 3
+opt-level = 2
 lto = true
 codegen-units = 1
 incremental = true
