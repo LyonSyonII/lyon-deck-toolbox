@@ -4,7 +4,7 @@
 
 ## Install
 ### Easy
-<a id="raw-url" href="[https://raw.githubusercontent.com/github-username/project/master/filename](https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main/Steam%20Deck%20Tools.desktop)">Download FILE</a>
+<a id="raw-url" href="https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main/Steam%20Deck%20Tools.desktop">Download FILE</a>
 
 
 [Download the `Steam Deck Tools.desktop`]() file and double click it in the file explorer.
