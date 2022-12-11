@@ -3,7 +3,7 @@ use eframe::{
     epaint::Vec2,
 };
 use serde::Deserialize;
-use steam_deck_tools::{download_from_repo, install_tool, ExpectRepo, StyleHelper};
+use steam_deck_tools::{download_from_repo, install_tool, ExpectRepo, StyleHelper, UiHelper};
 
 #[derive(Deserialize)]
 struct Tool {
@@ -15,38 +15,39 @@ struct Tool {
 
 struct App {
     tools: Vec<Tool>,
+    pixels_per_point: f32,
 }
 
 impl App {
     fn new(cc: &eframe::CreationContext, tools: Vec<Tool>) -> Self {
         let pixels_per_point = cc.integration_info.native_pixels_per_point.unwrap_or(1.);
         cc.egui_ctx.set_style(ui::Style::default());
-        cc.egui_ctx
-            .set_small_font_style(16., eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx
-            .set_body_font_style(22.5, eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx
-            .set_heading_font_style(54., eframe::epaint::FontFamily::Proportional);
-        cc.egui_ctx
-            .set_button_font_style(30., eframe::epaint::FontFamily::Proportional);
+        cc.egui_ctx.set_small_font_style(16.);
+        cc.egui_ctx.set_body_font_style(22.5);
+        cc.egui_ctx.set_heading_font_style(54.);
+        cc.egui_ctx.set_button_font_style(30.);
         cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
-        App { tools }
+        App {
+            tools,
+            pixels_per_point,
+        }
     }
-    
-    fn tool(ui: &mut Ui, tool: &Tool) {
+
+    fn tool(&self, ui: &mut Ui, tool: &Tool) {
         // SAFETY: unwrap is safe, text_styles is guaranteed to contain TextStyle::Heading
-        let heading = ui.style().text_styles.get(&TextStyle::Heading).unwrap().size;
+        let heading = ui
+            .style()
+            .text_styles
+            .get(&TextStyle::Heading)
+            .unwrap()
+            .size;
         // SAFETY: unwrap is safe, text_styles is guaranteed to contain TextStyle::Body
         let _body = ui.style().text_styles.get(&TextStyle::Body).unwrap().size;
         let description = tool.description.replace("\\n", "\n");
 
-        ui.horizontal(|ui| {
-            // TODO! ui.add_sized([40.0, 20.0], egui::DragValue::new(&mut my_value));
-            if ui.add(Button::new(RichText::new("Install"))).clicked() {
-                install_tool(&tool.title, tool.needs_root);
-            }
-            ui.vertical(|ui| {
+        ui.columns(2, |columns| {
+            columns[0].vertical(|ui| {
                 ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
                 ui.label(RichText::from(&description));
                 ui.add(Hyperlink::from_label_and_url(
@@ -54,6 +55,11 @@ impl App {
                     &tool.repo,
                 ));
             });
+            // SAFETY: 'columns' array is guaranteed to have 2 elements
+            if columns[1].button_sized("Install", columns[0].min_size()).clicked()
+            {
+                install_tool(&tool.title, tool.needs_root);
+            }
         });
         ui.separator();
     }
@@ -62,7 +68,7 @@ impl App {
         ScrollArea::vertical().show(ui, |ui| {
             ui.separator();
             for t in &self.tools {
-                Self::tool(ui, t);
+                self.tool(ui, t);
             }
         });
     }
@@ -71,9 +77,9 @@ impl App {
 #[allow(clippy::field_reassign_with_default)]
 fn main() {
     let input = download_from_repo("tools.yaml");
-    println!("Parsing 'tools.yaml'...");
+    println!("Parsing 'tools.yaml'");
     let tools: Vec<Tool> = serde_yaml::from_str(&input).expect_repo("Failed parsing 'tools.yaml'");
-    println!("Starting GUI...");
+    println!("Starting GUI");
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
     native_options.initial_window_size = Some(Vec2::new(1920., 1080.));
@@ -94,9 +100,7 @@ impl eframe::App for App {
                         .strong()
                         .heading(),
                 );
-                ui.label(
-                    RichText::new("Click the 'Install' button of each tool to install it.").small(),
-                );
+                ui.small("Click the 'Install' button of each tool to install it.")
             });
 
             self.tools(ui);

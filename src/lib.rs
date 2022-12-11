@@ -1,8 +1,8 @@
 use std::{fmt::Debug, ops::Deref};
 
 use eframe::{
-    egui::TextStyle,
-    epaint::{FontFamily, FontId},
+    egui::{TextStyle, Button, RichText},
+    epaint::{FontFamily, FontId, Vec2},
 };
 
 type FontStyle = (f32, FontFamily);
@@ -32,86 +32,91 @@ impl FontStyles {
         }
     }
 
-    pub fn with_small_style(mut self, size: f32, family: FontFamily) -> FontStyles {
-        self.small = (size, family);
+    pub fn with_small_style(mut self, size: f32) -> FontStyles {
+        self.small = (size, FontFamily::Proportional);
         self
     }
 
-    pub fn with_body_style(mut self, size: f32, family: FontFamily) -> FontStyles {
-        self.body = (size, family);
+    pub fn with_body_style(mut self, size: f32) -> FontStyles {
+        self.body = (size, FontFamily::Proportional);
         self
     }
 
-    pub fn with_monospace_style(mut self, size: f32, family: FontFamily) -> FontStyles {
-        self.monospace = (size, family);
+    pub fn with_monospace_style(mut self, size: f32) -> FontStyles {
+        self.monospace = (size, FontFamily::Proportional);
         self
     }
 
-    pub fn with_button_style(mut self, size: f32, family: FontFamily) -> FontStyles {
-        self.heading = (size, family);
+    pub fn with_button_style(mut self, size: f32) -> FontStyles {
+        self.heading = (size, FontFamily::Proportional);
         self
     }
 
-    pub fn with_heading_style(mut self, size: f32, family: FontFamily) -> FontStyles {
-        self.small = (size, family);
+    pub fn with_heading_style(mut self, size: f32) -> FontStyles {
+        self.small = (size, FontFamily::Proportional);
         self
     }
 }
 
 pub trait StyleHelper {
-    fn set_small_font_style(&self, size: f32, family: FontFamily);
-    fn set_body_font_style(&self, size: f32, family: FontFamily);
-    fn set_monospace_font_style(&self, size: f32, family: FontFamily);
-    fn set_button_font_style(&self, size: f32, family: FontFamily);
-    fn set_heading_font_style(&self, size: f32, family: FontFamily);
+    fn set_small_font_style(&self, size: f32);
+    fn set_body_font_style(&self, size: f32);
+    fn set_monospace_font_style(&self, size: f32);
+    fn set_button_font_style(&self, size: f32);
+    fn set_heading_font_style(&self, size: f32);
     fn set_font_styles(&self, styles: FontStyles);
     fn divide_font_sizes_by(&self, by: f32);
 
-    fn with_small_font_style(self, size: f32, family: FontFamily) -> Self;
-    fn with_body_font_style(self, size: f32, family: FontFamily) -> Self;
-    fn with_monospace_font_style(self, size: f32, family: FontFamily) -> Self;
-    fn with_button_font_style(self, size: f32, family: FontFamily) -> Self;
-    fn with_heading_font_style(self, size: f32, family: FontFamily) -> Self;
+    fn with_small_font_style(self, size: f32) -> Self;
+    fn with_body_font_style(self, size: f32) -> Self;
+    fn with_monospace_font_style(self, size: f32) -> Self;
+    fn with_button_font_style(self, size: f32) -> Self;
+    fn with_heading_font_style(self, size: f32) -> Self;
     fn with_font_styles(self, styles: FontStyles) -> Self;
 }
 
 impl StyleHelper for eframe::egui::Context {
-    fn set_small_font_style(&self, size: f32, family: FontFamily) {
+    fn set_small_font_style(&self, size: f32) {
         let mut style = self.style().deref().clone();
-        *style.text_styles.get_mut(&TextStyle::Small).unwrap() = FontId::new(size, family);
+        *style.text_styles.get_mut(&TextStyle::Small).unwrap() =
+            FontId::new(size, FontFamily::Proportional);
         self.set_style(style);
     }
 
-    fn set_body_font_style(&self, size: f32, family: FontFamily) {
+    fn set_body_font_style(&self, size: f32) {
         let mut style = self.style().deref().clone();
-        *style.text_styles.get_mut(&TextStyle::Body).unwrap() = FontId::new(size, family);
+        *style.text_styles.get_mut(&TextStyle::Body).unwrap() =
+            FontId::new(size, FontFamily::Proportional);
         self.set_style(style);
     }
 
-    fn set_monospace_font_style(&self, size: f32, family: FontFamily) {
+    fn set_monospace_font_style(&self, size: f32) {
         let mut style = self.style().deref().clone();
-        *style.text_styles.get_mut(&TextStyle::Monospace).unwrap() = FontId::new(size, family);
+        *style.text_styles.get_mut(&TextStyle::Monospace).unwrap() =
+            FontId::new(size, FontFamily::Proportional);
         self.set_style(style);
     }
 
-    fn set_button_font_style(&self, size: f32, family: FontFamily) {
+    fn set_button_font_style(&self, size: f32) {
         let mut style = self.style().deref().clone();
-        *style.text_styles.get_mut(&TextStyle::Button).unwrap() = FontId::new(size, family);
+        *style.text_styles.get_mut(&TextStyle::Button).unwrap() =
+            FontId::new(size, FontFamily::Proportional);
         self.set_style(style);
     }
 
-    fn set_heading_font_style(&self, size: f32, family: FontFamily) {
+    fn set_heading_font_style(&self, size: f32) {
         let mut style = self.style().deref().clone();
-        *style.text_styles.get_mut(&TextStyle::Heading).unwrap() = FontId::new(size, family);
+        *style.text_styles.get_mut(&TextStyle::Heading).unwrap() =
+            FontId::new(size, FontFamily::Proportional);
         self.set_style(style);
     }
 
     fn set_font_styles(&self, styles: FontStyles) {
-        self.set_small_font_style(styles.small.0, styles.small.1);
-        self.set_body_font_style(styles.body.0, styles.body.1);
-        self.set_monospace_font_style(styles.monospace.0, styles.monospace.1);
-        self.set_button_font_style(styles.button.0, styles.button.1);
-        self.set_heading_font_style(styles.heading.0, styles.heading.1);
+        self.set_small_font_style(styles.small.0);
+        self.set_body_font_style(styles.body.0);
+        self.set_monospace_font_style(styles.monospace.0);
+        self.set_button_font_style(styles.button.0);
+        self.set_heading_font_style(styles.heading.0);
     }
 
     fn divide_font_sizes_by(&self, by: f32) {
@@ -122,34 +127,44 @@ impl StyleHelper for eframe::egui::Context {
         self.set_style(style)
     }
 
-    fn with_small_font_style(self, size: f32, family: FontFamily) -> Self {
-        self.set_small_font_style(size, family);
+    fn with_small_font_style(self, size: f32) -> Self {
+        self.set_small_font_style(size);
         self
     }
 
-    fn with_body_font_style(self, size: f32, family: FontFamily) -> Self {
-        self.set_body_font_style(size, family);
+    fn with_body_font_style(self, size: f32) -> Self {
+        self.set_body_font_style(size);
         self
     }
 
-    fn with_monospace_font_style(self, size: f32, family: FontFamily) -> Self {
-        self.set_monospace_font_style(size, family);
+    fn with_monospace_font_style(self, size: f32) -> Self {
+        self.set_monospace_font_style(size);
         self
     }
 
-    fn with_button_font_style(self, size: f32, family: FontFamily) -> Self {
-        self.set_button_font_style(size, family);
+    fn with_button_font_style(self, size: f32) -> Self {
+        self.set_button_font_style(size);
         self
     }
 
-    fn with_heading_font_style(self, size: f32, family: FontFamily) -> Self {
-        self.set_heading_font_style(size, family);
+    fn with_heading_font_style(self, size: f32) -> Self {
+        self.set_heading_font_style(size);
         self
     }
 
     fn with_font_styles(self, styles: FontStyles) -> Self {
         self.set_font_styles(styles);
         self
+    }
+}
+
+pub trait UiHelper {
+    fn button_sized(&mut self, label: impl Into<String>, size: Vec2) -> eframe::egui::Response;
+}
+
+impl UiHelper for eframe::egui::Ui {
+    fn button_sized(&mut self, label: impl Into<String>, size: Vec2) -> eframe::egui::Response {
+        self.add_sized(size, Button::new(RichText::new(label.into())))
     }
 }
 
@@ -169,7 +184,7 @@ impl<T, E: Debug> ExpectRepo<T, E> for Result<T, E> {
 
 pub fn download_from_repo(file: impl AsRef<str>) -> String {
     let file = file.as_ref();
-    println!("Downloading latest '{file}' from {REPO}...");
+    println!("Downloading latest '{file}' from {REPO}");
     let url = format!("{REPO_RAW}/{file}");
     curl(&url)
 }
@@ -191,6 +206,9 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) {
 }
 
 pub fn curl(url: &str) -> String {
-    let out = std::process::Command::new("curl").args(["-L", url]).output().unwrap();
+    let out = std::process::Command::new("curl")
+        .args(["-L", url])
+        .output()
+        .unwrap();
     String::from_utf8(out.stdout).unwrap()
 }
