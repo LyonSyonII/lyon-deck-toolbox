@@ -3,7 +3,7 @@ use eframe::{
         self as ui, style::Margin, CentralPanel, Frame, Hyperlink, RichText, ScrollArea, TextStyle,
         Ui, Style, Window,
     },
-    epaint::{Rounding, Vec2, Pos2},
+    epaint::{Rounding, Vec2, Pos2}, IconData,
 };
 use serde::Deserialize;
 use lyon_deck_toolbox::{download_from_repo, install_tool, ExpectRepo, StyleHelper, UiHelper};
@@ -142,9 +142,18 @@ fn main() -> anyhow::Result<()> {
     println!("Parsing 'tools.yaml'");
     let tools: Vec<Tool> = serde_yaml::from_str(&input).repo_context("Failed parsing 'tools.yaml'")?;
     println!("Starting GUI");
+    
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
     native_options.initial_window_size = Some(Vec2::new(1280., 800.));
+    
+    let (header, icon) = png_decoder::decode(include_bytes!("../assets/icon.png")).unwrap();
+    native_options.icon_data = Some(IconData {
+        rgba: icon,
+        width: header.width,
+        height: header.height,
+    });
+
     eframe::run_native(
         "Lyon's Deck Toolbox",
         native_options,
