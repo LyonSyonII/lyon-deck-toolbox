@@ -197,7 +197,6 @@ pub fn download_from_repo(file: impl AsRef<str>) -> Result<String> {
 }
 
 pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
-    return Err(anyhow::Error::msg("Heyenneineioneineineioneineineineineineineineioneineioneioneionei"));
     let mut script = if needs_root {
         download_from_repo("install_scripts/needs_root.sh")?
     } else {
