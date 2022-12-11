@@ -42,6 +42,7 @@ impl App {
         let description = tool.description.replace("\\n", "\n");
 
         ui.horizontal(|ui| {
+            // TODO! ui.add_sized([40.0, 20.0], egui::DragValue::new(&mut my_value));
             if ui.add(Button::new(RichText::new("Install"))).clicked() {
                 install_tool(&tool.title, tool.needs_root);
             }
