@@ -1,17 +1,17 @@
 [package]
-name = "steam-deck-tools"
+name = "lyon-deck-toolbox"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-eframe = "0.19.0"
+eframe = "0.20.0"
 serde = { version = "1.0.148", features = ["derive"] }
 serde_yaml = "0.9.14"
 anyhow = "1.0.66"
 
 [profile.release]
 strip = true 
-opt-level = 2
+opt-level = 3
 lto = true
 codegen-units = 1
 incremental = true

@@ -1,0 +1,9 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Comment=A collection of tools and utilities for enhancing the experience with the Steam Deck.
+Exec=curl -L https://github.com/LyonSyonII/lyon-deck-toolbox/raw/main/lyon-deck-toolbox --output $HOME/.cache/lyon-deck-toolbox && chmod u+x $HOME/.cache/lyon-deck-toolbox && $HOME/.cache/lyon-deck-toolbox
+Icon=distributor-logo-steamdeck
+Name[en_US]=Lyon's Deck Toolbox
+Name=Lyon's Deck Toolbox
+Terminal=true
+Type=Application

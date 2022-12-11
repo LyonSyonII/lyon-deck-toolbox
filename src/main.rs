@@ -6,7 +6,7 @@ use eframe::{
     epaint::{Rounding, Vec2, Pos2},
 };
 use serde::Deserialize;
-use steam_deck_tools::{download_from_repo, install_tool, ExpectRepo, StyleHelper, UiHelper};
+use lyon_deck_toolbox::{download_from_repo, install_tool, ExpectRepo, StyleHelper, UiHelper};
 
 #[derive(Deserialize)]
 struct Tool {
@@ -120,7 +120,7 @@ impl eframe::App for App {
             ui.add_space(20.);
             ui.vertical_centered(|ui| {
                 ui.label(
-                    RichText::new("Steam Deck Tools")
+                    RichText::new("Lyon's Deck Toolbox")
                         .heading()
                         .underline()
                         .strong(),
@@ -148,7 +148,7 @@ fn main() -> anyhow::Result<()> {
     native_options.follow_system_theme = true;
     native_options.initial_window_size = Some(Vec2::new(1280., 800.));
     eframe::run_native(
-        "Steam Deck Tools",
+        "Lyon's Deck Toolbox",
         native_options,
         Box::new(|cc| Box::new(App::new(cc, tools))),
     );

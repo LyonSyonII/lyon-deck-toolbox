@@ -1,3 +1,5 @@
+rm -f $HOME/.cache/lyon-deck-toolbox.err
+
 REPOSRC=https://github.com/popsUlfr/steamos-btrfs
 LOCALREPO=$HOME/.local/share/steamosbtrfs
 
@@ -19,8 +21,9 @@ EXIT=$?
 if [[ $EXIT -eq 0 ]]
 then
     read -n 1 -r -s -p "Installation completed, press any key to close the window..."
-    exit 0;
 else
+    touch $HOME/.cache/lyon-deck-toolbox.err
     read -n 1 -r -s -p "Installation failed, press any key to close the window..."
-    exit 2;
 fi
+
+exit;

@@ -210,12 +210,13 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
         .args(["-e", "sh", "-c", &script])
         .output()
         .repo_context(format!("Failed running '{title}' install script."))?;
-    if output.status.success() {
-        println!("Success: {:?}", output.status.code());
-        Ok(())
-    } else {
+    
+    let home = std::env::var("HOME")?;
+    if std::path::Path::new(&format!("{home}/.cache/lyon-deck-toolbox.err")).exists() {
         println!("Fail: {:?}", output.status.code());
         Err(anyhow::Error::msg("")).repo_context(format!("Failed running '{title} install script'"))
+    } else {
+        Ok(())
     }
 }
 
