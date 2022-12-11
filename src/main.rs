@@ -1,6 +1,9 @@
 use eframe::{
-    egui::{self as ui, CentralPanel, Hyperlink, RichText, ScrollArea, TextStyle, Ui},
-    epaint::Vec2,
+    egui::{
+        self as ui, style::Margin, CentralPanel, Frame, Hyperlink, RichText, ScrollArea, TextStyle,
+        Ui, Style,
+    },
+    epaint::{Rounding, Shadow, Stroke, Vec2},
 };
 use serde::Deserialize;
 use steam_deck_tools::{download_from_repo, install_tool, ExpectRepo, StyleHelper, UiHelper};
@@ -21,16 +24,15 @@ struct App {
 impl App {
     fn new(cc: &eframe::CreationContext, tools: Vec<Tool>) -> Self {
         cc.egui_ctx.set_pixels_per_point(1.);
-        cc.egui_ctx.set_style(ui::Style::default());
+        let mut style = Style::default();
+        style.visuals.window_rounding = Rounding::same(5.);
+        cc.egui_ctx.set_style(style);
         cc.egui_ctx.set_small_font_style(16.);
         cc.egui_ctx.set_body_font_style(22.5);
         cc.egui_ctx.set_heading_font_style(54.);
         cc.egui_ctx.set_button_font_style(30.);
-        //cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
-        App {
-            tools
-        }
+        App { tools }
     }
 
     fn tool(&self, ui: &mut Ui, tool: &Tool) {
@@ -55,7 +57,10 @@ impl App {
                 ));
             });
             // SAFETY: 'columns' array is guaranteed to have 2 elements
-            if columns[1].button_sized("Install", columns[0].min_size()).clicked() {
+            if columns[1]
+                .button_sized("Install", columns[0].min_size())
+                .clicked()
+            {
                 // TODO! Show error window/popup if error is found
                 install_tool(&tool.title, tool.needs_root).unwrap();
             }
@@ -77,19 +82,33 @@ impl App {
 
 impl eframe::App for App {
     fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
-        CentralPanel::default().show(ctx, |ui| {
+        let style = ctx.style();
+        let frame = Frame {
+            inner_margin: Margin {
+                left: 20.,
+                right: 5.,
+                top: 0.,
+                bottom: 5.,
+            },
+            outer_margin: Margin::same(0.),
+            rounding: style.visuals.window_rounding,
+            shadow: style.visuals.window_shadow,
+            fill: style.visuals.window_fill(),
+            stroke: style.visuals.window_stroke(),
+        };
+        CentralPanel::default().frame(frame).show(ctx, |ui| {
             ui.add_space(20.);
             ui.vertical_centered(|ui| {
                 ui.label(
                     RichText::new("Steam Deck Tools")
                         .heading()
                         .underline()
-                        .strong()
+                        .strong(),
                 );
                 ui.small("Click the 'Install' button of each tool to install it.")
             });
             ui.add_space(20.);
-            
+
             self.tools(ui);
         });
     }
@@ -99,7 +118,8 @@ impl eframe::App for App {
 fn main() -> anyhow::Result<()> {
     let input = download_from_repo("tools.yaml")?;
     println!("Parsing 'tools.yaml'");
-    let tools: Vec<Tool> = serde_yaml::from_str(&input).repo_context("Failed parsing 'tools.yaml'")?;
+    let tools: Vec<Tool> =
+        serde_yaml::from_str(&input).repo_context("Failed parsing 'tools.yaml'")?;
     println!("Starting GUI");
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;

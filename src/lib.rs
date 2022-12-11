@@ -1,6 +1,6 @@
 use std::{fmt::Debug, ops::Deref};
 
-use anyhow::{Result, Error, Context};
+use anyhow::{Context, Error, Result};
 
 use eframe::{
     egui::{Button, RichText, TextStyle},
@@ -173,19 +173,21 @@ impl UiHelper for eframe::egui::Ui {
 pub const REPO: &str = "https://github.com/LyonSyonII/steam-deck-tools";
 pub const REPO_RAW: &str = "https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main";
 
-
 pub trait ExpectRepo<T, E> {
     fn repo_context(self, msg: impl AsRef<str>) -> anyhow::Result<T>;
 }
 
-impl<T, E> ExpectRepo<T, E> for Result<T, E> where T: Sync + Send, E: Into<anyhow::Error> + Sync + Send + 'static {
+impl<T, E> ExpectRepo<T, E> for Result<T, E>
+where
+    T: Sync + Send,
+    E: Into<anyhow::Error> + Sync + Send + 'static,
+{
     fn repo_context(self, msg: impl AsRef<str>) -> anyhow::Result<T> {
         let msg = msg.as_ref();
         let err: Result<T, anyhow::Error> = self.map_err(|e| e.into());
         err.with_context(|| format!("Unexpected error: {msg}. Please open an issue on {REPO}"))
     }
 }
-
 
 pub fn download_from_repo(file: impl AsRef<str>) -> Result<String> {
     let file = file.as_ref();
@@ -203,12 +205,12 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
     let title = title.as_ref();
     let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase());
     script.push_str(&download_from_repo(file)?);
-    
+
     std::process::Command::new("konsole")
         .args(["-e", "sh", "-c", &script])
         .output()
         .repo_context(format!("Failed running '{title}' install script."))?;
-    
+
     Ok(())
 }
 
