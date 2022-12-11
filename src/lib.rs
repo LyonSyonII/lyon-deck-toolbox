@@ -1,6 +1,6 @@
 use std::{fmt::Debug, ops::Deref};
 
-use anyhow::{Context, Error, Result, bail};
+use anyhow::{Context, Error, Result};
 
 use eframe::{
     egui::{Button, RichText, TextStyle},
