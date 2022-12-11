@@ -49,7 +49,7 @@ impl App {
         ui.columns(2, |columns| {
             columns[0].vertical(|ui| {
                 ui.label(RichText::new(&tool.title).strong().size(heading * 0.67));
-                ui.label(RichText::from(&description));
+                ui.label(description);
                 ui.add(Hyperlink::from_label_and_url(
                     RichText::new("Repo").small(),
                     &tool.repo,
