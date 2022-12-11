@@ -20,9 +20,8 @@ if [ EXIT -eq 0 ]
 then
     echo;
     read -n 1 -r -s -p "Installation completed, press any key to close the window..."
-    exit $EXIT;
 else
     echo;
     read -n 1 -r -s -p "Installation failed, press any key to close the window...."
-    exit $EXIT;
 fi
+exit $EXIT;
