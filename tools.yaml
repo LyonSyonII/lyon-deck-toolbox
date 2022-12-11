@@ -27,16 +27,6 @@
     Btrfs is an alternative linux filesystem that allows to compress all files automatically, potentially saving a lot of storage.
     It can be especially useful to users of the 64GB deck model.
     This injector will install the necessary payload to keep a btrfs formatted /home even through system updates.
-    Features:
-     - Btrfs /home conversion from ext4 (optional)
-     - Btrfs, f2fs, ext4, fat, exfat, ntfs formatted SD card support
-     - Btrfs, f2fs, ext4, fat, exfat, ntfs formating of SD card
-     - Progress dialog and logging during the home conversion!
-     - Install additional pacman packages into the rootfs automatically and persist through updates
-     - Survives updates and branch changes!
-     - Steam's downloading and temp folders as subvolumes with COW disabled
-     - Update check
-     - Non-linux filesystems (fat, exfat, ntfs) have their compatdata folder bind mounted from the internal storage for proton support by default (and don't forget that with fat you are restricted to a maximum of 4GB per file!)
   note: Read all the instructions in the repository carefully, though easy to install it can have unexpected side effects, some Linux knowledge is advised.
   repo: https://github.com/popsUlfr/steamos-btrfs
   needs_root: true

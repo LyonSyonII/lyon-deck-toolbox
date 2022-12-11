@@ -1,14 +1,19 @@
-# Script extracted from the official .desktop installer
+REPOSRC=https://github.com/popsUlfr/steamos-btrfs
+LOCALREPO=$HOME/.local/share/steamosbtrfs
 
-if [[ -f /usr/share/steamos-btrfs/install.sh ]] ; 
-then 
-    /usr/share/steamos-btrfs/install.sh ; 
-else 
-    t=\\"\\$(mktemp -d)\\" ; 
-    curl -sSL https://gitlab.com/popsulfr/steamos-btrfs/-/archive/main/steamos-btrfs-main.tar.gz | tar -xzf - -C \\"\\$t\\" --strip-components=1 ; 
-    \\"\\$t/install.sh\\" ; 
-    rm -rf \\"\\$t\\" ; 
+LOCALREPO_VC_DIR=$LOCALREPO/.git
+
+if [ ! -d $LOCALREPO_VC_DIR ]
+then
+    git clone $REPOSRC $LOCALREPO
+    cd $LOCALREPO
+else
+    cd $LOCALREPO
+    git pull $REPOSRC
 fi
+
+chmod u+x install.sh
+./install.sh
 
 echo;
 read -n 1 -r -s -p "Installation completed, press any key to close the window..."
