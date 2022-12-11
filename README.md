@@ -1,25 +1,25 @@
-![Screenshot](https://github.com/LyonSyonII/steam-deck-tools/blob/main/assets/screenshot.png)
+![Screenshot](https://github.com/LyonSyonII/lyon-deck-toolbox/blob/main/assets/screenshot.png)
 
 > An installer for a collection of tools and utilities to enhance the experience with the Steam Deck.
 
 ## Install
 ### Easy
-[Download the `Steam Deck Tools.desktop`](https://github.com/LyonSyonII/steam-deck-tools/releases/latest/download/Steam-Deck-Tools.desktop) file and double click it in the file explorer.
+[Download the `Lyon's Deck Toolbox.desktop`](https://github.com/LyonSyonII/lyon-deck-toolbox/releases/latest/download/Lyon's%20Deck%20Toolbox.desktop) file and double click it in the file explorer.
 
 It will automatically update itself, so no need to download it again.
 
 ### For nerds
-Clone the repository and run the `steam-deck-tools` executable.
+Clone the repository and run the `lyon-deck-toolbox` executable.
 ```bash
-git clone https://github.com/LyonSyonII/steam-deck-tools
-cd steam-deck-tools
-./steam-deck-tools
+git clone https://github.com/LyonSyonII/lyon-deck-toolbox
+cd lyon-deck-toolbox
+./lyon-deck-toolbox
 ```
 
 Or, if you want to compile it from source, install it with Cargo.
 ```bash
-git clone https://github.com/LyonSyonII/steam-deck-tools
-cd steam-deck-tools
+git clone https://github.com/LyonSyonII/lyon-deck-toolbox
+cd lyon-deck-toolbox
 cargo install --path .
 ```
 

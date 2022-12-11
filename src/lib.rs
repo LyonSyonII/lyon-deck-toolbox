@@ -170,8 +170,8 @@ impl UiHelper for eframe::egui::Ui {
     }
 }
 
-pub const REPO: &str = "https://github.com/LyonSyonII/steam-deck-tools";
-pub const REPO_RAW: &str = "https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main";
+pub const REPO: &str = "https://github.com/LyonSyonII/lyon-deck-toolbox";
+pub const REPO_RAW: &str = "https://raw.githubusercontent.com/LyonSyonII/lyon-deck-toolbox/main";
 
 pub trait ExpectRepo<T, E> {
     fn repo_context(self, msg: impl AsRef<str>) -> anyhow::Result<T>;
