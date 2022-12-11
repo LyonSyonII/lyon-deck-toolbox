@@ -16,12 +16,10 @@ chmod u+x install.sh
 ./install.sh
 
 EXIT=$?
-if [ $EXIT -eq 0 ]
+if [[ $EXIT -eq 0 ]]
 then
-    echo $EXIT;
     read -n 1 -r -s -p "Installation completed, press any key to close the window..."
 else
-    echo $EXIT;
-    read -n 1 -r -s -p "Installation failed, press any key to close the window...."
+    read -n 1 -r -s -p "Installation failed, press any key to close the window..."
 fi
 exit $EXIT;
