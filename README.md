@@ -18,7 +18,9 @@ cd steam-deck-tools
 
 Or, if you want to compile it from source, install it with Cargo.
 ```bash
-cargo install steam-deck-tools
+git clone https://github.com/LyonSyonII/steam-deck-tools
+cd steam-deck-tools
+cargo install --path .
 ```
 
 ## Tools
