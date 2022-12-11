@@ -206,13 +206,15 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
     let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase().replace(' ', ""));
     script.push_str(&download_from_repo(file)?);
 
-    let status = std::process::Command::new("konsole")
+    let output = std::process::Command::new("konsole")
         .args(["-e", "sh", "-c", &script])
-        .status()
+        .output()
         .repo_context(format!("Failed running '{title}' install script."))?;
-    if status.success() {
+    if output.status.success() {
+        println!("Success: {:?}", output.status.code());
         Ok(())
     } else {
+        println!("Fail: {:?}", output.status.code());
         Err(anyhow::Error::msg("")).repo_context(format!("Failed running '{title} install script'"))
     }
 }
