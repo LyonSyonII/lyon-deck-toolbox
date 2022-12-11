@@ -1,6 +1,6 @@
 use std::{fmt::Debug, ops::Deref};
 
-use anyhow::{Context, Error, Result};
+use anyhow::{Context, Error, Result, bail};
 
 use eframe::{
     egui::{Button, RichText, TextStyle},
@@ -206,12 +206,15 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
     let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase().replace(' ', ""));
     script.push_str(&download_from_repo(file)?);
 
-    std::process::Command::new("konsole")
+    let status = std::process::Command::new("konsole")
         .args(["-e", "sh", "-c", &script])
-        .output()
+        .status()
         .repo_context(format!("Failed running '{title}' install script."))?;
-
-    Ok(())
+    if status.success() {
+        Ok(())
+    } else {
+        Err(anyhow::Error::msg("")).repo_context(format!("Failed running '{title} install script'"))
+    }
 }
 
 pub fn curl(url: &str) -> Result<String> {
