@@ -4,8 +4,6 @@
 
 ## Install
 ### Easy
-<a href="https://github.com/LyonSyonII/lyon-deck-toolbox/releases/latest/download/lyon-deck-toolbox.desktop" download="Lyon's Deck Toolbox.desktop">Download the `Lyon's Deck Toolbox.desktop` executable</a>
-
 [Download the `Lyon's Deck Toolbox.desktop` executable](https://github.com/LyonSyonII/lyon-deck-toolbox/releases/latest/download/lyon-deck-toolbox.desktop) file and double click it in the file explorer.
 
 It will automatically update itself, so no need to download it again.
