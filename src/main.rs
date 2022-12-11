@@ -16,13 +16,11 @@ struct Tool {
 #[allow(dead_code)]
 struct App {
     tools: Vec<Tool>,
-    pixels_per_point: f32,
 }
 
 impl App {
     fn new(cc: &eframe::CreationContext, tools: Vec<Tool>) -> Self {
         cc.egui_ctx.set_pixels_per_point(1.0);
-        let pixels_per_point = cc.integration_info.native_pixels_per_point.unwrap_or(1.);
         cc.egui_ctx.set_style(ui::Style::default());
         cc.egui_ctx.set_small_font_style(16.);
         cc.egui_ctx.set_body_font_style(22.5);
@@ -31,8 +29,7 @@ impl App {
         //cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         App {
-            tools,
-            pixels_per_point,
+            tools
         }
     }
 
