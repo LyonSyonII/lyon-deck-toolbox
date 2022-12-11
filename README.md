@@ -4,10 +4,7 @@
 
 ## Install
 ### Easy
-<a id="raw-url" href="https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main/Steam%20Deck%20Tools.desktop">Download FILE</a>
-
-
-[Download the `Steam Deck Tools.desktop`]() file and double click it in the file explorer.
+[Download the `Steam Deck Tools.desktop`](https://github.com/LyonSyonII/steam-deck-tools/releases/latest/download/Steam-Deck-Tools.desktop) file and double click it in the file explorer.
 
 It will automatically update itself, so no need to download it again.
 
