@@ -1,5 +1,5 @@
 use eframe::{
-    egui::{self as ui, Button, CentralPanel, Hyperlink, RichText, ScrollArea, TextStyle, Ui},
+    egui::{self as ui, CentralPanel, Hyperlink, RichText, ScrollArea, TextStyle, Ui},
     epaint::Vec2,
 };
 use serde::Deserialize;
@@ -13,6 +13,7 @@ struct Tool {
     needs_root: bool,
 }
 
+#[allow(dead_code)]
 struct App {
     tools: Vec<Tool>,
     pixels_per_point: f32,
@@ -20,13 +21,14 @@ struct App {
 
 impl App {
     fn new(cc: &eframe::CreationContext, tools: Vec<Tool>) -> Self {
+        cc.egui_ctx.set_pixels_per_point(1.0);
         let pixels_per_point = cc.integration_info.native_pixels_per_point.unwrap_or(1.);
         cc.egui_ctx.set_style(ui::Style::default());
         cc.egui_ctx.set_small_font_style(16.);
         cc.egui_ctx.set_body_font_style(22.5);
         cc.egui_ctx.set_heading_font_style(54.);
         cc.egui_ctx.set_button_font_style(30.);
-        cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
+        //cc.egui_ctx.divide_font_sizes_by(pixels_per_point);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
         App {
             tools,
@@ -57,7 +59,8 @@ impl App {
             });
             // SAFETY: 'columns' array is guaranteed to have 2 elements
             if columns[1].button_sized("Install", columns[0].min_size()).clicked() {
-                install_tool(&tool.title, tool.needs_root);
+                // TODO! Show error window/popup if error is found
+                install_tool(&tool.title, tool.needs_root).unwrap();
             }
         });
         ui.separator();
@@ -74,10 +77,10 @@ impl App {
 }
 
 #[allow(clippy::field_reassign_with_default)]
-fn main() {
-    let input = download_from_repo("tools.yaml");
+fn main() -> anyhow::Result<()> {
+    let input = download_from_repo("tools.yaml")?;
     println!("Parsing 'tools.yaml'");
-    let tools: Vec<Tool> = serde_yaml::from_str(&input).expect_repo("Failed parsing 'tools.yaml'");
+    let tools: Vec<Tool> = serde_yaml::from_str(&input).repo_context("Failed parsing 'tools.yaml'")?;
     println!("Starting GUI");
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
@@ -86,7 +89,8 @@ fn main() {
         "Steam Deck Tools",
         native_options,
         Box::new(|cc| Box::new(App::new(cc, tools))),
-    )
+    );
+    Ok(())
 }
 
 impl eframe::App for App {

@@ -1,5 +1,7 @@
 use std::{fmt::Debug, ops::Deref};
 
+use anyhow::{Result, Error, Context};
+
 use eframe::{
     egui::{Button, RichText, TextStyle},
     epaint::{FontFamily, FontId, Vec2},
@@ -171,44 +173,48 @@ impl UiHelper for eframe::egui::Ui {
 pub const REPO: &str = "https://github.com/LyonSyonII/steam-deck-tools";
 pub const REPO_RAW: &str = "https://raw.githubusercontent.com/LyonSyonII/steam-deck-tools/main";
 
+
 pub trait ExpectRepo<T, E> {
-    fn expect_repo(self, msg: &str) -> T;
+    fn repo_context(self, msg: impl AsRef<str>) -> anyhow::Result<T>;
 }
 
-impl<T, E: Debug> ExpectRepo<T, E> for Result<T, E> {
-    fn expect_repo(self, msg: &str) -> T {
-        let msg = &format!("Unexpected error: {msg}. Please open an issue on {REPO}");
-        self.expect(msg)
+impl<T, E> ExpectRepo<T, E> for Result<T, E> where T: Sync + Send, E: Into<anyhow::Error> + Sync + Send + 'static {
+    fn repo_context(self, msg: impl AsRef<str>) -> anyhow::Result<T> {
+        let msg = msg.as_ref();
+        let err: Result<T, anyhow::Error> = self.map_err(|e| e.into());
+        err.with_context(|| format!("Unexpected error: {msg}. Please open an issue on {REPO}"))
     }
 }
 
-pub fn download_from_repo(file: impl AsRef<str>) -> String {
+
+pub fn download_from_repo(file: impl AsRef<str>) -> Result<String> {
     let file = file.as_ref();
     println!("Downloading latest '{file}' from {REPO}");
     let url = format!("{REPO_RAW}/{file}");
-    curl(&url)
+    curl(&url).repo_context(format!("Failed downloading '{file}' from {url}"))
 }
 
-pub fn install_tool(title: impl AsRef<str>, needs_root: bool) {
+pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
     let mut script = if needs_root {
-        download_from_repo("install_scripts/needs_root.sh")
+        download_from_repo("install_scripts/needs_root.sh")?
     } else {
         String::new()
     };
     let title = title.as_ref();
     let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase());
-    script.push_str(&download_from_repo(file));
-
+    script.push_str(&download_from_repo(file)?);
+    
     std::process::Command::new("konsole")
         .args(["-e", "sh", "-c", &script])
         .output()
-        .expect_repo(&format!("Failed running '{title}' install script."));
+        .repo_context(format!("Failed running '{title}' install script."))?;
+    
+    Ok(())
 }
 
-pub fn curl(url: &str) -> String {
+pub fn curl(url: &str) -> Result<String> {
     let out = std::process::Command::new("curl")
         .args(["-L", url])
-        .output()
-        .unwrap();
-    String::from_utf8(out.stdout).unwrap()
+        .output()?;
+    String::from_utf8(out.stdout).map_err(Error::msg)
 }
