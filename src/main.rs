@@ -142,11 +142,12 @@ fn main() -> anyhow::Result<()> {
     println!("Parsing 'tools.yaml'");
     let tools: Vec<Tool> = serde_yaml::from_str(&input).repo_context("Failed parsing 'tools.yaml'")?;
     println!("Starting GUI");
-    
+
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
     native_options.initial_window_size = Some(Vec2::new(1280., 800.));
     
+    println!("Parsing icon");
     let (header, icon) = png_decoder::decode(include_bytes!("../assets/icon.png")).unwrap();
     native_options.icon_data = Some(IconData {
         rgba: icon,
