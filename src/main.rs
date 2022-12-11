@@ -20,7 +20,7 @@ struct App {
 
 impl App {
     fn new(cc: &eframe::CreationContext, tools: Vec<Tool>) -> Self {
-        cc.egui_ctx.set_pixels_per_point(1.0);
+        cc.egui_ctx.set_pixels_per_point(1.);
         cc.egui_ctx.set_style(ui::Style::default());
         cc.egui_ctx.set_small_font_style(16.);
         cc.egui_ctx.set_body_font_style(22.5);
@@ -60,15 +60,37 @@ impl App {
                 install_tool(&tool.title, tool.needs_root).unwrap();
             }
         });
-        ui.separator();
     }
 
     fn tools(&self, ui: &mut Ui) {
         ScrollArea::vertical().show(ui, |ui| {
-            ui.separator();
             for t in &self.tools {
+                ui.separator();
+                ui.add_space(15.);
                 self.tool(ui, t);
+                ui.add_space(15.);
             }
+            ui.separator();
+        });
+    }
+}
+
+impl eframe::App for App {
+    fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
+        CentralPanel::default().show(ctx, |ui| {
+            ui.add_space(20.);
+            ui.vertical_centered(|ui| {
+                ui.label(
+                    RichText::new("Steam Deck Tools")
+                        .heading()
+                        .underline()
+                        .strong()
+                );
+                ui.small("Click the 'Install' button of each tool to install it.")
+            });
+            ui.add_space(20.);
+            
+            self.tools(ui);
         });
     }
 }
@@ -81,29 +103,11 @@ fn main() -> anyhow::Result<()> {
     println!("Starting GUI");
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
-    native_options.initial_window_size = Some(Vec2::new(1920., 1080.));
+    native_options.initial_window_size = Some(Vec2::new(1280., 800.));
     eframe::run_native(
         "Steam Deck Tools",
         native_options,
         Box::new(|cc| Box::new(App::new(cc, tools))),
     );
     Ok(())
-}
-
-impl eframe::App for App {
-    fn update(&mut self, ctx: &eframe::egui::Context, _: &mut eframe::Frame) {
-        CentralPanel::default().show(ctx, |ui| {
-            ui.vertical_centered(|ui| {
-                ui.label(
-                    RichText::new("Steam Deck Tools")
-                        .underline()
-                        .strong()
-                        .heading(),
-                );
-                ui.small("Click the 'Install' button of each tool to install it.")
-            });
-
-            self.tools(ui);
-        });
-    }
 }
