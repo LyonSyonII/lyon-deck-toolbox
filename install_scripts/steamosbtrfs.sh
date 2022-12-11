@@ -23,6 +23,6 @@ then
     exit $EXIT;
 else
     echo;
-    read -n 1 -r -s -p "Installation failed, press any key to close the window..."
+    read -n 1 -r -s -p "Installation failed, press any key to close the window...."
     exit $EXIT;
 fi
