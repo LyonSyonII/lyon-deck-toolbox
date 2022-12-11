@@ -191,8 +191,8 @@ where
 
 pub fn download_from_repo(file: impl AsRef<str>) -> Result<String> {
     let file = file.as_ref();
-    println!("Downloading latest '{file}' from {REPO}");
     let url = format!("{REPO_RAW}/{file}");
+    println!("Downloading latest '{file}' from {url}");
     curl(&url).repo_context(format!("Failed downloading '{file}' from {url}"))
 }
 

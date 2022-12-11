@@ -15,7 +15,13 @@ fi
 chmod u+x install.sh
 ./install.sh
 
-echo;
-read -n 1 -r -s -p "Installation completed, press any key to close the window..."
-
-exit 0;
+if [ $? -eq 0 ]
+then
+    echo;
+    read -n 1 -r -s -p "Installation completed, press any key to close the window..."
+    exit 0;
+else
+    echo;
+    read -n 1 -r -s -p "Installation failed, press any key to close the window..."
+    exit 1;
+fi

@@ -14,6 +14,7 @@ struct Tool {
     description: String,
     repo: String,
     needs_root: bool,
+    note: Option<String>
 }
 
 #[allow(dead_code)]
