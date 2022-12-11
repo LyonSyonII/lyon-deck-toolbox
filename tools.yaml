@@ -27,6 +27,5 @@
     Btrfs is an alternative linux filesystem that allows to compress all files automatically, potentially saving a lot of storage.
     It can be especially useful to users of the 64GB deck model.
     This injector will install the necessary payload to keep a btrfs formatted /home even through system updates.
-  #note: Read all the instructions in the repository carefully, though easy to install it can have unexpected side effects, some Linux knowledge is advised.
   repo: https://github.com/popsUlfr/steamos-btrfs
   needs_root: true

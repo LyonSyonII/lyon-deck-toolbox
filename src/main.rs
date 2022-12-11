@@ -13,8 +13,7 @@ struct Tool {
     title: String,
     description: String,
     repo: String,
-    needs_root: bool,
-    note: Option<String>
+    needs_root: bool
 }
 
 #[allow(dead_code)]

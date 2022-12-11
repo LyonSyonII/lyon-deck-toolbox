@@ -185,7 +185,7 @@ where
     fn repo_context(self, msg: impl AsRef<str>) -> anyhow::Result<T> {
         let msg = msg.as_ref();
         let err: Result<T, anyhow::Error> = self.map_err(|e| e.into());
-        err.with_context(|| format!("Unexpected error: {msg}. Please open an issue on {REPO}"))
+        err.with_context(|| format!("{msg}. Please open an issue on {REPO}"))
     }
 }
 
