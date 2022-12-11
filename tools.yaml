@@ -4,16 +4,39 @@
   needs_root: true
 
 - title: CryoUtilities
-  description: Scripts and utilities to enhance the Steam Deck experience, particularly performance.\nCurrent Functionality:\n - Swap File Resizer\n - Swappiness Changer.
+  description: |
+    Scripts and utilities to enhance the Steam Deck experience, particularly performance.
+    Current Functionality:
+     - Swap File Resizer
+     - Swappiness Changer.
   repo: https://github.com/CryoByte33/steam-deck-utilities
   needs_root: true
 
-- title: Emudeck
+- title: EmuDeck
   description: EmuDeck is a collection of scripts that allows you to autoconfigure your Steam Deck, it creates your roms directory structure and downloads all of the needed Emulators for you along with the best configurations for each of them.
   repo: https://github.com/dragoonDorise/EmuDeck
   needs_root: false
 
-- title: Decky-loader
+- title: Decky Loader
   description: Decky Loader is a homebrew plugin launcher for the Steam Deck.
   repo: https://github.com/SteamDeckHomebrew/decky-loader
+  needs_root: true
+
+- title: SteamOS Btrfs
+  description: |
+    Btrfs is an alternative linux filesystem that allows to compress all files automatically, potentially saving a lot of storage.
+    It can be especially useful to users of the 64GB deck model.
+    This injector will install the necessary payload to keep a btrfs formatted /home even through system updates.
+    Features:
+     - Btrfs /home conversion from ext4 (optional)
+     - Btrfs, f2fs, ext4, fat, exfat, ntfs formatted SD card support
+     - Btrfs, f2fs, ext4, fat, exfat, ntfs formating of SD card
+     - Progress dialog and logging during the home conversion!
+     - Install additional pacman packages into the rootfs automatically and persist through updates
+     - Survives updates and branch changes!
+     - Steam's downloading and temp folders as subvolumes with COW disabled
+     - Update check
+     - Non-linux filesystems (fat, exfat, ntfs) have their compatdata folder bind mounted from the internal storage for proton support by default (and don't forget that with fat you are restricted to a maximum of 4GB per file!)
+  note: Read all the instructions in the repository carefully, though easy to install it can have unexpected side effects, some Linux knowledge is advised.
+  repo: https://github.com/popsUlfr/steamos-btrfs
   needs_root: true

@@ -203,7 +203,7 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
         String::new()
     };
     let title = title.as_ref();
-    let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase());
+    let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase().replace(' ', ""));
     script.push_str(&download_from_repo(file)?);
 
     std::process::Command::new("konsole")
