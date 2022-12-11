@@ -140,8 +140,7 @@ impl eframe::App for App {
 fn main() -> anyhow::Result<()> {
     let input = download_from_repo("tools.yaml")?;
     println!("Parsing 'tools.yaml'");
-    let tools: Vec<Tool> =
-        serde_yaml::from_str(&input).repo_context("Failed parsing 'tools.yaml'")?;
+    let tools: Vec<Tool> = serde_yaml::from_str(&input).repo_context("Failed parsing 'tools.yaml'")?;
     println!("Starting GUI");
     let mut native_options = eframe::NativeOptions::default();
     native_options.follow_system_theme = true;
