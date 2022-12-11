@@ -56,8 +56,7 @@ impl App {
                 ));
             });
             // SAFETY: 'columns' array is guaranteed to have 2 elements
-            if columns[1].button_sized("Install", columns[0].min_size()).clicked()
-            {
+            if columns[1].button_sized("Install", columns[0].min_size()).clicked() {
                 install_tool(&tool.title, tool.needs_root);
             }
         });

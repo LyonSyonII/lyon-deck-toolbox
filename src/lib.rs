@@ -1,7 +1,7 @@
 use std::{fmt::Debug, ops::Deref};
 
 use eframe::{
-    egui::{TextStyle, Button, RichText},
+    egui::{Button, RichText, TextStyle},
     epaint::{FontFamily, FontId, Vec2},
 };
 
