@@ -1,7 +1,7 @@
 use eframe::{
     egui::{
         self as ui, style::Margin, CentralPanel, Frame, Hyperlink, RichText, ScrollArea, TextStyle,
-        Ui, Style, Window,
+        Ui, Style, Window, TextEdit,
     },
     epaint::{Rounding, Vec2, Pos2}, IconData,
 };
@@ -19,7 +19,8 @@ struct Tool {
 #[allow(dead_code)]
 struct App {
     tools: Vec<Tool>,
-    show_error_popup: (bool, String)
+    show_error_popup: (bool, String),
+    search: String
 }
 
 impl App {
@@ -33,7 +34,7 @@ impl App {
         cc.egui_ctx.set_heading_font_style(54.);
         cc.egui_ctx.set_button_font_style(30.);
         cc.egui_ctx.set_visuals(ui::Visuals::light());
-        App { tools, show_error_popup: (false, String::new()) }
+        App { tools, show_error_popup: (false, String::new()), search: String::new() }
     }
 
     fn tool(ui: &mut Ui, tool: &Tool) -> anyhow::Result<()> {
@@ -66,9 +67,13 @@ impl App {
     }
     
     fn tools(&mut self, ui: &mut Ui) -> anyhow::Result<()> {
-        // TODO: Add filter box (do not show tools that do not contain the string)
+        let search = &self.search.to_ascii_lowercase();
         ScrollArea::vertical().show(ui, |ui| {
             for t in &self.tools {
+                if !t.title.to_ascii_lowercase().contains(search) && !t.description.to_ascii_lowercase().contains(search) {
+                    continue;
+                }
+
                 ui.separator();
                 ui.add_space(15.);
                 Self::tool(ui, t)?;
@@ -117,6 +122,7 @@ impl eframe::App for App {
             }
             
             ui.add_space(20.);
+
             ui.vertical_centered(|ui| {
                 ui.label(
                     RichText::new("Lyon's Deck Toolbox")
@@ -124,8 +130,15 @@ impl eframe::App for App {
                         .underline()
                         .strong(),
                 );
-                ui.small("Click the 'Install' button of each tool to install it.")
+                ui.small("Click the 'Install' button of each tool to install it.");
+                ui.add_space(20.);
+            
+                let search = ui.add(TextEdit::singleline(&mut self.search).hint_text("Search").font(TextStyle::Button));
+                if search.gained_focus() {
+                    self.search.clear();
+                }
             });
+
             ui.add_space(20.);
             
             match self.tools(ui) {
