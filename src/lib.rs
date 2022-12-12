@@ -206,14 +206,17 @@ pub fn install_tool(title: impl AsRef<str>, needs_root: bool) -> Result<()> {
     let file = format!("install_scripts/{}.sh", title.to_ascii_lowercase().replace(' ', ""));
     script.push_str(&download_from_repo(file)?);
 
-    let output = std::process::Command::new("konsole")
+    let error = std::path::PathBuf::from(format!("{}/.cache/lyon-deck-toolbox.err", std::env::var("HOME")?));
+    if error.exists() {
+        std::fs::remove_file(&error)?;
+    }
+
+    std::process::Command::new("konsole")
         .args(["-e", "sh", "-c", &script])
         .output()
         .repo_context(format!("Failed running '{title}' install script."))?;
     
-    let home = std::env::var("HOME")?;
-    if std::path::Path::new(&format!("{home}/.cache/lyon-deck-toolbox.err")).exists() {
-        println!("Fail: {:?}", output.status.code());
+    if error.exists() {
         Err(anyhow::Error::msg("")).repo_context(format!("Failed running '{title} install script'"))
     } else {
         Ok(())
