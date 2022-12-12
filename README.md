@@ -36,3 +36,8 @@ Currently Steam Deck Tools can automatically install:
 
 - ### [Decky-loader](https://github.com/SteamDeckHomebrew/decky-loader)
   Decky Loader is a homebrew plugin launcher for the Steam Deck.
+  
+- ### [SteamOS Btrfs](https://github.com/popsUlfr/steamos-btrfs)
+    Btrfs is an alternative linux filesystem that allows to compress all files automatically, potentially saving a lot of storage.  
+    It can be especially useful to users of the 64GB deck model.  
+    This injector will install the necessary payload to keep a btrfs formatted /home even through system updates.  
