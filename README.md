@@ -24,7 +24,7 @@ cargo install --path .
 ```
 
 ## Tools
-Currently Steam Deck Tools can automatically install:
+Currently the Toolbox can automatically install:
 - ### [Rwfus](https://github.com/ValShaped/rwfus)  
   Like a vinyl couch cover for your filesystem, Rwfus covers your Deck's /usr/ directory (and some others) allowing you to initialize and use pacman (the Arch Linux package manager) on the Steam Deck without losing packages when the next update comes out.  
 
