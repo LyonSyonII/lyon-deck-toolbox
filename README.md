@@ -1,5 +1,4 @@
-![Screenshot](https://github.com/LyonSyonII/lyon-deck-toolbox/blob/main/assets/screenshot.png)
-
+![Screenshot](https://github.com/LyonSyonII/lyon-deck-toolbox/blob/main/assets/screenshot.png?raw=true)
 > Lyon's Deck Toolbox, an installer for a collection of tools and utilities to enhance the experience with the Steam Deck.
 
 ## Install
