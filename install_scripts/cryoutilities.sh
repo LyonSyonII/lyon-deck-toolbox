@@ -1,19 +1,4 @@
-REPOSRC=https://github.com/CryoByte33/steam-deck-utilities
-LOCALREPO=$HOME/.local/share/cryo-utilities
-
-LOCALREPO_VC_DIR=$LOCALREPO/.git
-
-if [ ! -d $LOCALREPO_VC_DIR ]
-then
-    git clone $REPOSRC $LOCALREPO
-    cd $LOCALREPO
-else
-    cd $LOCALREPO
-    git pull $REPOSRC
-fi
-
-chmod u+x cryo_utilities.sh
-./cryo_utilities.sh
+curl https://raw.githubusercontent.com/CryoByte33/steam-deck-utilities/main/install.sh | bash -s --;
 
 if [[ $? -eq 0 ]]
 then
@@ -26,4 +11,3 @@ else
 fi
 
 exit;
-
